@@ -15,11 +15,11 @@ public class EnemyPathfinding : MonoBehaviour
         EnemyMove();
     }
 
-    public void SetNewposition (Vector2 newPosition){
-        roamingPosition = newPosition;
-    }
-
     private void EnemyMove(){
             myRigidbody.MovePosition(myRigidbody.position + roamingPosition * (moveSpeed * Time.fixedDeltaTime));
     } 
+    
+    public void SetNewposition (Vector2 newPosition){
+        roamingPosition = newPosition;
+    }
 }
