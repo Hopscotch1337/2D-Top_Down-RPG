@@ -8,6 +8,8 @@ using UnityEngine.Scripting.APIUpdating;
 public class PlayerContoller : MonoBehaviour
 {
     public bool FacingLeft{get {return facingLeft;} set{facingLeft = value;}}
+    public static PlayerContoller Instance;
+
     
     [SerializeField] private float moveSpeed =1f;
 
@@ -23,6 +25,7 @@ public class PlayerContoller : MonoBehaviour
 
 
     private void Awake() {
+        Instance = this;
         playerControls = new PlayerControls();
         rb = GetComponent<Rigidbody2D>();
         myAnimator = GetComponent<Animator>();

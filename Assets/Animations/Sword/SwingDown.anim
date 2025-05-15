@@ -552,7 +552,21 @@ AnimationClip:
   m_HasMotionFloatCurves: 0
   m_Events:
   - time: 0
-    functionName: SwingDownAnimation
+    functionName: SwingDownAnimationEvent
+    data: 
+    objectReferenceParameter: {fileID: 11500000, guid: 2f69d419a9ee00f45baefa4e174c15f0, type: 3}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0
+  - time: 0
+    functionName: SwingDownAnimationEvent
+    data: 
+    objectReferenceParameter: {fileID: 0}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0
+  - time: 0.22222222
+    functionName: DoneAttackingAnimationEvent
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0

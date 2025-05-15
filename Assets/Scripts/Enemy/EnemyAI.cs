@@ -24,7 +24,6 @@ public class EnemyAI : MonoBehaviour
     private IEnumerator RoamingRoutine(){
         while (state == State.Roaming){
             Vector2 roamingPosition = GetRoamingPosition();
-            Debug.Log(roamingPosition);
             enemyPathfinding.SetNewposition(roamingPosition);
             yield return new WaitForSeconds(4f);
         }

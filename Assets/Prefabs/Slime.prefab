@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 7536460131475766930}
   - component: {fileID: 8435223597909653010}
   m_Layer: 0
-  m_Name: Shadows_Sheet_2
+  m_Name: Shadow
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -98,6 +98,9 @@ GameObject:
   - component: {fileID: 4327988941757661277}
   - component: {fileID: 6920933139403748155}
   - component: {fileID: 3010143809086160848}
+  - component: {fileID: 390604154616168824}
+  - component: {fileID: 4847176767983656809}
+  - component: {fileID: 7071368951657700092}
   m_Layer: 0
   m_Name: Slime
   m_TagString: Untagged
@@ -260,3 +263,43 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 47adec61389bdce498c9690f0e32caab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &390604154616168824
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3310787553118107113}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5c2334d5f3fb5d54589f9b9663576c67, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  startingHealth: 3
+--- !u!114 &4847176767983656809
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3310787553118107113}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1794c88515eab1d4fb30eee1c8591577, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  knockBackTime: 0.2
+--- !u!114 &7071368951657700092
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3310787553118107113}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9ba5ee7d2b932546b0a65929539404f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  whiteFlashMat: {fileID: 2100000, guid: bfdd4427cd65e294db5dcb0a47d5f858, type: 2}
+  flashingTime: 0.2
