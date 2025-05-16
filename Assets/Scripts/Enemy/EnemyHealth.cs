@@ -7,12 +7,15 @@ public class EnemyHealth : MonoBehaviour
 {
     [SerializeField] private int startingHealth = 3;
     
+  
 
     private int currentHealth;
     private KnockBack knockBack;
     private SpriteFlash spriteFlash;
 
-    private void Awake() {
+
+    private void Awake()
+    {
         knockBack = GetComponent<KnockBack>();
         spriteFlash = GetComponent<SpriteFlash>();
     }
