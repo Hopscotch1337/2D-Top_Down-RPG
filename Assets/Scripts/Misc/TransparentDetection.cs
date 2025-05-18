@@ -22,7 +22,7 @@ public class TransparentDetection : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.gameObject.GetComponent<PlayerContoller>())
+        if (other.gameObject.GetComponent<PlayerController>())
         {
             if (spriteRenderer)
             {
@@ -36,7 +36,7 @@ public class TransparentDetection : MonoBehaviour
     }
     private void OnTriggerExit2D(Collider2D other)
     {
-        if (other.gameObject.GetComponent<PlayerContoller>())
+        if (other.gameObject.GetComponent<PlayerController>())
         {
             if (spriteRenderer){
                 StartCoroutine(FadeRoutine(spriteRenderer, fadeTime, spriteRenderer.color.a, 1f));

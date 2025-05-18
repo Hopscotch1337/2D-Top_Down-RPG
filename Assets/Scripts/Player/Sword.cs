@@ -13,14 +13,14 @@ public class Sword : MonoBehaviour
 
     private PlayerControls playerControls;
     private Animator myAnimator;
-    private PlayerContoller playerContoller;
+    private PlayerController playerController;
     private ActiveWeapon activeWeapon;
     private bool isAttacking, attackButtonDown = false;
 
     private GameObject slashAnimation;
 
     private void Awake() {
-        playerContoller = GetComponentInParent<PlayerContoller>();
+        playerController = GetComponentInParent<PlayerController>();
         activeWeapon = GetComponentInParent<ActiveWeapon>();
         playerControls = new PlayerControls();
         myAnimator = GetComponent<Animator>();
@@ -74,7 +74,7 @@ public class Sword : MonoBehaviour
 
     public void SwingUpFlipAnimationEvent(){
         slashAnimation.gameObject.transform.rotation = Quaternion.Euler(-180,0,0);
-        if (playerContoller.FacingLeft) {
+        if (playerController.FacingLeft) {
             slashAnimation.GetComponent<SpriteRenderer>().flipX = true;
         }else{
             slashAnimation.GetComponent<SpriteRenderer>().flipX = false;
@@ -83,7 +83,7 @@ public class Sword : MonoBehaviour
 
     public void SwingDownAnimationEvent(){
         slashAnimation.gameObject.transform.rotation = Quaternion.Euler(0,0,0);
-        if (playerContoller.FacingLeft) {
+        if (playerController.FacingLeft) {
             slashAnimation.GetComponent<SpriteRenderer>().flipX = true;
         }else{
             slashAnimation.GetComponent<SpriteRenderer>().flipX = false;
@@ -92,7 +92,7 @@ public class Sword : MonoBehaviour
 
     private void MouseFollowWithOffset(){
         Vector3 mousePos = Input.mousePosition;
-        Vector3 playerScreenPoint = Camera.main.WorldToScreenPoint(playerContoller.transform.position);
+        Vector3 playerScreenPoint = Camera.main.WorldToScreenPoint(playerController.transform.position);
 
         float angle = Mathf.Atan2(mousePos.y, mousePos.x) * Mathf.Rad2Deg;
         
