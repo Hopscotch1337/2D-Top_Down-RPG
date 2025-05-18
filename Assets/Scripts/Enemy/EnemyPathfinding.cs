@@ -14,7 +14,7 @@ public class EnemyPathfinding : MonoBehaviour
         knockBack = GetComponent<KnockBack>();
     }
     private void FixedUpdate() {
-        if (knockBack.gettingKnockedBack){return;}
+        if (knockBack.GettingKnockedBack){return;}
         EnemyMove();
     }
 

@@ -7,24 +7,32 @@ using UnityEngine.Scripting.APIUpdating;
 
 public class PlayerContoller : MonoBehaviour
 {
-    public bool FacingLeft{get {return facingLeft;} set{facingLeft = value;}}
+    public bool FacingLeft { get { return facingLeft; } }
     public static PlayerContoller Instance;
 
-    
-    [SerializeField] private float moveSpeed =1f;
+
+    [SerializeField] private float moveSpeed = 1f;
+    [SerializeField] private float dashSpeed = 4f;
+    [SerializeField] private float dashTime = 0.5f;
+    [SerializeField] private float dashCooldown = 1f;
+    // [SerializeField] private float jumpForce = 2f;
+    [SerializeField] private TrailRenderer playerTrailRenderer;
 
     private PlayerControls playerControls;
     private Vector2 movement;
     private Rigidbody2D rb;
     private Animator myAnimator;
     private SpriteRenderer mySpriteRenderer;
+    private float startingMoveSpeed;
 
     private bool facingLeft = false;
-    
+    private bool isDashing = false;
 
 
 
-    private void Awake() {
+
+    private void Awake()
+    {
         Instance = this;
         playerControls = new PlayerControls();
         rb = GetComponent<Rigidbody2D>();
@@ -32,44 +40,77 @@ public class PlayerContoller : MonoBehaviour
         mySpriteRenderer = GetComponent<SpriteRenderer>();
 
     }
-
-    private void OnEnable() {
+    private void Start()
+    {
+        startingMoveSpeed = moveSpeed;
+        playerControls.DashJump.Dash.performed += _ => Dash();
+        // playerControls.DashJump.Jump.performed += _ => Jump();
+    }
+    private void OnEnable()
+    {
         playerControls.Enable();
     }
 
-    private void Update() {
+    private void Update()
+    {
         PlayerInput();
-        
+
     }
-    private void FixedUpdate() {
+    private void FixedUpdate()
+    {
         Move();
         AdjustPlayerFacingDirection();
     }
 
-    private void PlayerInput(){
+    private void PlayerInput()
+    {
         movement = playerControls.Movement.Move.ReadValue<Vector2>();
         myAnimator.SetFloat("moveX", movement.x);
         myAnimator.SetFloat("moveY", movement.y);
     }
 
-    private void Move(){
+    private void Move()
+    {
         rb.MovePosition(rb.position + movement * (moveSpeed * Time.fixedDeltaTime));
     }
 
-    private void AdjustPlayerFacingDirection(){
+    private void AdjustPlayerFacingDirection()
+    {
         Vector3 mousePos = Input.mousePosition;
         Vector3 playerScreenPoint = Camera.main.WorldToScreenPoint(transform.position);
-        
-        if (mousePos.x < playerScreenPoint.x){
-            mySpriteRenderer.flipX = true;
-            FacingLeft = true;
-        }
-        else{
-            mySpriteRenderer.flipX = false;
-            FacingLeft = false;
-        }
-        
-    }
-    
 
+        if (mousePos.x < playerScreenPoint.x)
+        {
+            mySpriteRenderer.flipX = true;
+            facingLeft = true;
+        }
+        else
+        {
+            mySpriteRenderer.flipX = false;
+            facingLeft = false;
+        }
+
+    }
+
+    private void Dash(){
+        if (!isDashing)
+        {
+        StartCoroutine(DashRoutine());
+        }
+    }
+
+    private IEnumerator DashRoutine() {
+        playerTrailRenderer.emitting = true;
+        isDashing = true;
+        moveSpeed *= dashSpeed;
+        yield return new WaitForSeconds(dashTime);
+        moveSpeed = startingMoveSpeed;
+        playerTrailRenderer.emitting = false;
+        yield return new WaitForSeconds(dashCooldown);
+        isDashing = false;
+    }
+    // private void Jump()
+    // {
+
+    // }
 }

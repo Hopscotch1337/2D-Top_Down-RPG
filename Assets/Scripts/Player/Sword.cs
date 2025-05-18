@@ -9,12 +9,13 @@ public class Sword : MonoBehaviour
     [SerializeField] private GameObject slashAnimationPrefab;
     [SerializeField] private Transform slashAnimationSpawnPoint;
     [SerializeField] private Transform weaponCollider;
+    [SerializeField] private float attackCooldown = 0.5f;
 
     private PlayerControls playerControls;
     private Animator myAnimator;
     private PlayerContoller playerContoller;
     private ActiveWeapon activeWeapon;
-    
+    private bool isAttacking, attackButtonDown = false;
 
     private GameObject slashAnimation;
 
@@ -23,8 +24,6 @@ public class Sword : MonoBehaviour
         activeWeapon = GetComponentInParent<ActiveWeapon>();
         playerControls = new PlayerControls();
         myAnimator = GetComponent<Animator>();
-        
-
     }
 
     private void OnEnable() {
@@ -35,23 +34,41 @@ public class Sword : MonoBehaviour
         playerControls.Disable();
     }
 
-    private void Start() {
-        playerControls.Combat.Attack.started += _ => Attack();
+    private void Start()
+    {
+        playerControls.Combat.Attack.started += _ => StartAttacking();
+        playerControls.Combat.Attack.canceled += _ => StopAttacking();
+        weaponCollider.gameObject.SetActive(false);
     }
 
-    private void Update() {
+    private void Update()
+    {
         MouseFollowWithOffset();
+        StartCoroutine(AttackCDRoutine());
     }
 
-    private void Attack() {
-        myAnimator.SetTrigger("Attack");
-        weaponCollider.gameObject.SetActive(true);
+    private void StartAttacking(){
+        attackButtonDown = true;
+    }
+    private void StopAttacking(){
+        attackButtonDown = false;
+    }
 
-        slashAnimation = Instantiate(slashAnimationPrefab, slashAnimationSpawnPoint.position, Quaternion.identity);
-        slashAnimation.transform.parent = this.transform.parent;
+    private IEnumerator AttackCDRoutine(){
+        if (attackButtonDown &! isAttacking)
+        {
+            isAttacking = true;
+            myAnimator.SetTrigger("Attack");
+            weaponCollider.gameObject.SetActive(true);
+            slashAnimation = Instantiate(slashAnimationPrefab, slashAnimationSpawnPoint.position, Quaternion.identity);
+            slashAnimation.transform.parent = this.transform.parent;
+            yield return new WaitForSeconds(attackCooldown);
+            isAttacking = false;
+        }
     }
 
     private void DoneAttackingAnimationEvent(){
+
         weaponCollider.gameObject.SetActive(false);
     }
 
