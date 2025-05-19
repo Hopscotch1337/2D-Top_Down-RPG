@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class SpriteFlash : MonoBehaviour
 {
-    [SerializeField] private Material whiteFlashMat;
+    [SerializeField] private Material flashMat;
     [SerializeField] private float flashingTime = .2f;
     
 
@@ -19,7 +19,7 @@ public class SpriteFlash : MonoBehaviour
     }
 
     public IEnumerator FlashRoutine() {
-        spriteRenderer.material = whiteFlashMat;
+        spriteRenderer.material = flashMat;
         yield return new WaitForSeconds(flashingTime);
         spriteRenderer.material = defaultMat;
         enemyHealth.DetectDeath();

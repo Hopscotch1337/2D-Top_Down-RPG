@@ -263,6 +263,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 47adec61389bdce498c9690f0e32caab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  roamChangeDirectionTime: 2
 --- !u!114 &390604154616168824
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -276,7 +277,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   startingHealth: 3
-  deathVFXPrefab: {fileID: 6650836294485768397, guid: ec00048677378274fb540c64e759e025, type: 3}
+  deathVFXPrefab: {fileID: 3160514829792544683, guid: f16ecf8c38f7ac24899247675b8f7696, type: 3}
+  knockBackForce: 15
 --- !u!114 &4847176767983656809
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -302,5 +304,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e9ba5ee7d2b932546b0a65929539404f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  whiteFlashMat: {fileID: 2100000, guid: bfdd4427cd65e294db5dcb0a47d5f858, type: 2}
+  flashMat: {fileID: 2100000, guid: bfdd4427cd65e294db5dcb0a47d5f858, type: 2}
   flashingTime: 0.2

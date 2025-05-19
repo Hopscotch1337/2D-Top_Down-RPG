@@ -5,7 +5,7 @@ using UnityEngine.SceneManagement;
 
 public class AreaExit : MonoBehaviour
 {
-    [SerializeField] private string sceneToLoad;
+    [SerializeField] private int sceneToLoad;
     [SerializeField] private string sceneTransitionName;
     [SerializeField] private float waitToLoadTime = 1f;
 
@@ -27,6 +27,6 @@ public class AreaExit : MonoBehaviour
     private IEnumerator LoadScene()
     {
         yield return new WaitForSeconds(waitToLoadTime);
-        SceneManager.LoadScene(sceneToLoad);
+        SceneManager.LoadScene("Scene_" + sceneToLoad);
     }
 }
