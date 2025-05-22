@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: TorchBloom
+  m_Name: PlayerTrail
   m_Shader: {fileID: -6465566751694194690, guid: d9e74013fc2db8c4783b502e18098842, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
@@ -42,9 +42,9 @@ Material:
     m_Ints: []
     m_Floats: []
     m_Colors:
-    - _Color: {r: 2.7954402, g: 2.7954402, b: 0.54152507, a: 0.3254902}
+    - _Color: {r: 5.9921575, g: 5.9921575, b: 5.9921575, a: 0}
   m_BuildTextureStacks: []
---- !u!114 &9020152020921252362
+--- !u!114 &8418149158572515861
 MonoBehaviour:
   m_ObjectHideFlags: 11
   m_CorrespondingSourceObject: {fileID: 0}

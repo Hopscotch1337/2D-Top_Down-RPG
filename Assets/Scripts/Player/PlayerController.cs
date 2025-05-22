@@ -15,6 +15,8 @@ public class PlayerController : Singelton<PlayerController>
     [SerializeField] private float dashCooldown = 1f;
     // [SerializeField] private float jumpForce = 2f;
     [SerializeField] private TrailRenderer playerTrailRenderer;
+    [SerializeField] private Transform weaponcollider;
+    [SerializeField] private Transform slashAnimationSpawnPoint;
 
     private PlayerControls playerControls;
     private Vector2 movement;
@@ -29,7 +31,7 @@ public class PlayerController : Singelton<PlayerController>
     protected override void Awake()
     {
         base.Awake(); // Call the base class Awake method
-        
+
         playerControls = new PlayerControls();
         rb = GetComponent<Rigidbody2D>();
         myAnimator = GetComponent<Animator>();
@@ -57,6 +59,13 @@ public class PlayerController : Singelton<PlayerController>
         Move();
         AdjustPlayerFacingDirection();
     }
+    public Transform GetWeaponcollider(){
+        return weaponcollider; 
+    }
+    public Transform GetSlashAnimationSpawnPoint(){
+        return slashAnimationSpawnPoint; 
+    }
+    
 
     private void PlayerInput()
     {
