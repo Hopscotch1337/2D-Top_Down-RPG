@@ -4,22 +4,24 @@ using UnityEngine;
 
 public class RotateActiveWeapon : MonoBehaviour
 {
-    private Transform weaponTransform;
-
     private void Awake()
     {
-        weaponTransform = this.transform;
+
     }
     void Update()
     {
-
+        if (ActiveWeapon.Instance.CurrentActiveWeapon != null)
+        {
+            MouseFollow();
+        }
     }
     
     public void MouseFollow()
     {
         Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        Vector2 direction = (mousePos - this.gameObject.transform.position).normalized;
+        Vector2 direction = (mousePos - transform.position).normalized;
+        //transform.right = direction; // alternative
         float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
-        weaponTransform.rotation = Quaternion.Euler(new Vector3(0, 0, angle));
+        transform.rotation = Quaternion.Euler(new Vector3(0, 0, angle));
     }
 }

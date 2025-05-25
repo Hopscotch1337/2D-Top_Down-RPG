@@ -121,3 +121,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   slashAnimationPrefab: {fileID: 5104628123195111088, guid: b67202fbcc973c54fbe6eaa4f72cc2aa, type: 3}
   attackCooldown: 0.5
+  weaponInfo: {fileID: 11400000, guid: 3cbfd236f71b0c447b589f826e8cbd3b, type: 2}

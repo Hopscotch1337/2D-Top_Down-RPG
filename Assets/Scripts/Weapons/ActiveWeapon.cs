@@ -7,6 +7,8 @@ public class ActiveWeapon : Singelton<ActiveWeapon>
     public MonoBehaviour CurrentActiveWeapon { get; private set; }
     private PlayerControls playerControls;
     private bool isAttacking, attackButtonDown = false;
+    private float weaponCooldown;
+    
 
 
     protected override void Awake()
@@ -19,7 +21,7 @@ public class ActiveWeapon : Singelton<ActiveWeapon>
     {
         playerControls.Combat.Attack.started += _ => StartAttacking();
         playerControls.Combat.Attack.canceled += _ => StopAttacking();
-        // weaponCollider.gameObject.SetActive(false);
+        HandleWeaponCooldwon();
     }
     private void Update()
     {
@@ -29,27 +31,35 @@ public class ActiveWeapon : Singelton<ActiveWeapon>
     public void NewWeapon(MonoBehaviour newWeapon)
     {
         CurrentActiveWeapon = newWeapon;
+        weaponCooldown = (CurrentActiveWeapon as IWeapon).GetWeaponInfo().attackCooldown;
+        HandleWeaponCooldwon();
     }
-    public void ToggleIsAttacking(bool value)
+        public void WeaponNull()
     {
-        isAttacking = value;
+        CurrentActiveWeapon = null;
     }
 
     private void OnEnable()
     {
         playerControls.Enable();
     }
-
-    public void WeaponNull()
-    {
-        CurrentActiveWeapon = null;
-    }
-
-
     private void OnDisable()
     {
         playerControls.Disable();
     }
+
+    private void HandleWeaponCooldwon()
+    {
+        isAttacking = true;
+        StopAllCoroutines();
+        StartCoroutine(CooldownRoutine());
+    }
+    IEnumerator CooldownRoutine()
+    {
+        yield return new WaitForSeconds(weaponCooldown);
+        isAttacking = false;
+    }
+
     private void StartAttacking()
     {
         attackButtonDown = true;
@@ -60,11 +70,10 @@ public class ActiveWeapon : Singelton<ActiveWeapon>
     }
     private void Attack()
     {
-        if (attackButtonDown && !isAttacking)
+        if (attackButtonDown && !isAttacking && CurrentActiveWeapon is IWeapon)
         {
-            isAttacking = true;
-            // Call the attack method of the weapon
             (CurrentActiveWeapon as IWeapon).Attack();
+            HandleWeaponCooldwon();
         }
     }
     

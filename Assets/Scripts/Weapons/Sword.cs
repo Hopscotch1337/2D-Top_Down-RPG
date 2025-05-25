@@ -8,7 +8,7 @@ using UnityEngine.UI;
 public class Sword : MonoBehaviour ,IWeapon
 {
     [SerializeField] private GameObject slashAnimationPrefab;
-    [SerializeField] private float attackCooldown = 0.5f;
+    [SerializeField] private WeaponInfo weaponInfo;
 
     private Transform weaponCollider;
     private Transform slashAnimationSpawnPoint;
@@ -21,29 +21,30 @@ public class Sword : MonoBehaviour ,IWeapon
         weaponCollider = PlayerController.Instance.GetWeaponcollider();
         slashAnimationSpawnPoint = PlayerController.Instance.GetSlashAnimationSpawnPoint();
     }
+
+    private void Start() {
+        weaponCollider.gameObject.SetActive(false);
+    }
     private void Update()
     {
         MouseFollowWithOffset();
     }
+public WeaponInfo GetWeaponInfo()
+    {
+        return weaponInfo;
+    }
     
     public void Attack()
     {
-        StartCoroutine(AttackCDRoutine());
-    }
-
-    private IEnumerator AttackCDRoutine()
-    {
-
-        // isAttacking = true;
         myAnimator.SetTrigger("Attack");
         weaponCollider.gameObject.SetActive(true);
         slashAnimation = Instantiate(slashAnimationPrefab, slashAnimationSpawnPoint.position, Quaternion.identity);
         slashAnimation.transform.parent = this.transform.parent;
-        yield return new WaitForSeconds(attackCooldown);
-        ActiveWeapon.Instance.ToggleIsAttacking(false);
     }
 
-    private void DoneAttackingAnimationEvent() {
+
+    private void DoneAttackingAnimationEvent()
+    {
 
         weaponCollider.gameObject.SetActive(false);
     }

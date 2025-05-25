@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.UI;
@@ -50,18 +51,23 @@ public class ActiveInventory : Singelton<ActiveInventory>
         {
             Destroy(ActiveWeapon.Instance.CurrentActiveWeapon.gameObject);
         }
-        if (!transform.GetChild(activeInventoryIndex).GetComponent<InventorySlot>())
+        Transform childTransform = transform.GetChild(activeInventoryIndex);
+        InventorySlot inventorySlot = childTransform.GetComponent<InventorySlot>();
+        WeaponInfo weaponInfo = inventorySlot.GetWeaponInfo();
+        GameObject weaponToSpawn = weaponInfo.weaponPrefab;
+        // GameObject weaponToSpawn = transform.GetChild(activeInventoryIndex).GetComponentInChildren<InventorySlot>().GetWeaponInfo().weaponPrefab;
+
+        if (weaponInfo == null)
         {
             ActiveWeapon.Instance.WeaponNull();
             return;
         }
-        
-            GameObject weaponToSpawn = transform.GetChild(activeInventoryIndex).GetComponentInChildren<InventorySlot>().GetWeaponInfo().weaponPrefab;
-            GameObject newWeapon = Instantiate(weaponToSpawn, ActiveWeapon.Instance.transform.position, Quaternion.identity);
+
+        GameObject newWeapon = Instantiate(weaponToSpawn, ActiveWeapon.Instance.transform.position, Quaternion.identity);
+            ActiveWeapon.Instance.transform.rotation = quaternion.Euler(0, 0, 0);
 
             newWeapon.transform.parent = ActiveWeapon.Instance.transform;
             ActiveWeapon.Instance.NewWeapon(newWeapon.GetComponent<MonoBehaviour>());
-        
     }
         
 }
