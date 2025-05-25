@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using UnityEditor.Tilemaps;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -23,6 +24,7 @@ public class PlayerController : Singelton<PlayerController>
     private Rigidbody2D rb;
     private Animator myAnimator;
     private SpriteRenderer mySpriteRenderer;
+    private KnockBack knockBack;
     private float startingMoveSpeed;
 
     private bool facingLeft = false;
@@ -32,6 +34,7 @@ public class PlayerController : Singelton<PlayerController>
     {
         base.Awake(); // Call the base class Awake method
 
+        knockBack = GetComponent<KnockBack>();
         playerControls = new PlayerControls();
         rb = GetComponent<Rigidbody2D>();
         myAnimator = GetComponent<Animator>();
@@ -47,6 +50,10 @@ public class PlayerController : Singelton<PlayerController>
     private void OnEnable()
     {
         playerControls.Enable();
+    }
+    private void OnDisable()
+    {
+        playerControls.Disable();
     }
 
     private void Update()
@@ -76,6 +83,10 @@ public class PlayerController : Singelton<PlayerController>
 
     private void Move()
     {
+        if ( knockBack.GettingKnockedBack) 
+        {
+            return; // Prevent player movement while knocked back
+        }
         rb.MovePosition(rb.position + movement * (moveSpeed * Time.fixedDeltaTime));
     }
 

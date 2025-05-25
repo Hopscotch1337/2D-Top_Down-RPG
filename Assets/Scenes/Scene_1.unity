@@ -7140,11 +7140,14 @@ GameObject:
   m_Component:
   - component: {fileID: 729755465}
   - component: {fileID: 729755463}
-  - component: {fileID: 729755466}
-  - component: {fileID: 729755467}
   - component: {fileID: 729755468}
+  - component: {fileID: 729755467}
   - component: {fileID: 729755469}
   - component: {fileID: 729755470}
+  - component: {fileID: 729755466}
+  - component: {fileID: 729755473}
+  - component: {fileID: 729755472}
+  - component: {fileID: 729755471}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -7337,6 +7340,49 @@ SortingGroup:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_SortAtRoot: 0
+--- !u!114 &729755471
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 729755462}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9ba5ee7d2b932546b0a65929539404f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  flashMat: {fileID: 2100000, guid: bfdd4427cd65e294db5dcb0a47d5f858, type: 2}
+  flashingTime: 1
+--- !u!114 &729755472
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 729755462}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1794c88515eab1d4fb30eee1c8591577, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  knockBackTime: 0.2
+--- !u!114 &729755473
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 729755462}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9f78954d39722b84e9de745cd48cbdf4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxHealth: 3
+  knockBackTrust: 10
+  damageRecoveryTime: 1
+  deathEffect: {fileID: 0}
 --- !u!1001 &794908717
 PrefabInstance:
   m_ObjectHideFlags: 0
