@@ -1,17 +1,16 @@
 using System.Collections;
-using System.Collections.Generic;
+
 using UnityEngine;
 
 public class PlayerHealth : MonoBehaviour
 {
+   // [SerializeField] private GameObject deathEffect;
     [SerializeField] private int maxHealth = 3;
     [SerializeField] private float knockBackTrust = 10f;
     [SerializeField] private float damageRecoveryTime = 1f;
-    private int currentHealth;
-    [SerializeField] private GameObject deathEffect;
     private KnockBack knockBack;
     private SpriteFlash spriteFlash;
-    private int damage = 1;
+    private int currentHealth;
     private bool canTakeDamage = true;
 
     private void Awake()
@@ -27,32 +26,33 @@ public class PlayerHealth : MonoBehaviour
     private void OnCollisionStay2D(Collision2D other)
     {
         EnemyAI isEnemy = other.gameObject.GetComponent<EnemyAI>();
-        if (isEnemy != null && canTakeDamage)
+        if (isEnemy != null)
         {
-            TakeDamage();
-            StartCoroutine(spriteFlash.FlashRoutine());
-            knockBack.GetKnockedBack(isEnemy.transform, knockBackTrust);
+            TakeDamage(1, other.transform);
         }
     }
 
-
-    public void TakeDamage()
+    public void TakeDamage(int damageamount, Transform hitTransform)
     {
-        canTakeDamage = false;
-        currentHealth -= damage;
-        
+        if (!canTakeDamage) { return; }
+
+        ScreenShakeManager.Instance.ScreenShake();
+        knockBack.GetKnockedBack(hitTransform, knockBackTrust);
         StartCoroutine(DamageRecoveryCooldown());
-        Debug.Log("Player took damage, current health: " + currentHealth);
+        StartCoroutine(spriteFlash.FlashRoutine());
+        canTakeDamage = false;
+        currentHealth -= damageamount;
 
         if (currentHealth <= 0)
         {
             // Die();
         }
-        
-        IEnumerator DamageRecoveryCooldown()
-        {
-            yield return new WaitForSeconds(damageRecoveryTime);
-            canTakeDamage = true;
-        }
     }
+        
+    IEnumerator DamageRecoveryCooldown()
+    {
+        yield return new WaitForSeconds(damageRecoveryTime);
+        canTakeDamage = true;
+    }
+    
 }

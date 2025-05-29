@@ -101,8 +101,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4099ef828fceaf14a86b18569354ee13, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  projectileSpeed: 20
   impactEffect: {fileID: 6133958057900447484, guid: 75bfee71785e2884bba64253e099847b, type: 3}
+  projectileSpeed: 20
+  projectileRange: 10
+  isEnemyProjectile: 0
 --- !u!50 &1991671130260769439
 Rigidbody2D:
   serializedVersion: 4

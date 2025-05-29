@@ -4,14 +4,17 @@ using UnityEngine;
 
 public class Projectile : MonoBehaviour
 {
-    [SerializeField] private float projectileSpeed = 10f;
-    [SerializeField] private GameObject impactEffect; 
-    private WeaponInfo weaponInfo;
+    [SerializeField] private GameObject impactEffect;
+    [SerializeField] private float projectileSpeed =20f; // Default speed, can be updated by the weapon
+    [SerializeField] private float projectileRange = 10f; // Default range, can be updated by the weapon
+    [SerializeField] private bool isEnemyProjectile = false;
+
     private Vector3 projectileStartPoint;
 
     void Start()
     {
         projectileStartPoint = transform.position;
+
     }
 
     void Update()
@@ -19,9 +22,13 @@ public class Projectile : MonoBehaviour
         ProjectileMovement();
         CheckProjectileRange();
     }
-    public void Initialize(WeaponInfo weaponInfo)
+    public void UpdateProjectileRange(float weaponRange)
     {
-        this.weaponInfo = weaponInfo;
+        this.projectileRange = weaponRange;
+    }
+    public void UpdateProjectileSpeed(float projectileSpeed)
+    {
+        this.projectileSpeed = projectileSpeed;
     }
 
     private void ProjectileMovement()
@@ -30,7 +37,7 @@ public class Projectile : MonoBehaviour
     }
     private void CheckProjectileRange()
     {
-        if (Vector3.Distance(transform.position, projectileStartPoint) > weaponInfo.weaponRange)
+        if (Vector3.Distance(transform.position, projectileStartPoint) > projectileRange)
         {
             Destroy(gameObject);
         }
@@ -40,12 +47,24 @@ public class Projectile : MonoBehaviour
     {
         EnemyHealth enemyHealth = other.GetComponent<EnemyHealth>();
         Indestructable indestructable = other.GetComponent<Indestructable>();
+        PlayerHealth player = other.GetComponent<PlayerHealth>();
 
-        if (!other.isTrigger && (enemyHealth || indestructable))
+        if (!other.isTrigger && (enemyHealth || indestructable || player))
         {
-            enemyHealth?.TakeDamage(weaponInfo.weaponDamage);
-            Instantiate(impactEffect, transform.position, transform.rotation);
-            Destroy(gameObject);
+            if ((isEnemyProjectile && player) || (!isEnemyProjectile && enemyHealth))
+            {
+                player?.TakeDamage(1, transform);
+                enemyHealth?.TakeDamage(1);
+                Instantiate(impactEffect, transform.position, transform.rotation);
+                Destroy(gameObject);
+            }
+            else if (indestructable)
+            {
+                Instantiate(impactEffect, transform.position, transform.rotation);
+                Destroy(gameObject);
+            }
+            
+
         }
 
     }

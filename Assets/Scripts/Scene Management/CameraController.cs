@@ -13,6 +13,7 @@ public class CameraController : Singelton<CameraController>
         if (playerTransform == null)
         {
             playerTransform = FindObjectOfType<PlayerController>().transform;
+            SetPlayerCameraFollow();
         }
     }
 
