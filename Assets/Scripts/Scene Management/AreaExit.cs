@@ -1,23 +1,23 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class AreaExit : MonoBehaviour
 {
-    [SerializeField] private int sceneToLoad;
+    [SerializeField] private int sceneToLoadNum;
+    [SerializeField] private string sceneToLoadName = "Scene_";
     [SerializeField] private string sceneTransitionName;
     [SerializeField] private float waitToLoadTime = 1f;
+    [SerializeField] private bool portalActive = true;
 
-    private SceneManagement sceneManagement;
-    private void Awake()
-    {
-        sceneManagement = SceneManagement.Instance;
-    }
+
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.gameObject.GetComponent<PlayerController>())
+
+        if (portalActive && other.gameObject.GetComponent<PlayerController>())
         {
             SceneManagement.Instance.SetTransitionName(sceneTransitionName);
             UIFade.Instance.FadeToBlack();
@@ -27,6 +27,6 @@ public class AreaExit : MonoBehaviour
     private IEnumerator LoadScene()
     {
         yield return new WaitForSeconds(waitToLoadTime);
-        SceneManager.LoadScene("Scene_" + sceneToLoad);
+        SceneManager.LoadScene(sceneToLoadName + sceneToLoadNum);
     }
 }

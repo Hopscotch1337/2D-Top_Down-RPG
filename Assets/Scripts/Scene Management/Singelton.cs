@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.Rendering;
 using UnityEngine;
 
 public class Singelton<T> : MonoBehaviour where T : Singelton<T>
@@ -9,17 +10,18 @@ public class Singelton<T> : MonoBehaviour where T : Singelton<T>
 
     protected virtual void Awake()
     {
-        if (instance == null)
+        if (instance != null && this.gameObject != null)
         {
-            instance = this as T;
-            if(!gameObject.transform.parent)
-            {
-                DontDestroyOnLoad(gameObject);
-            }
+            Destroy(this.gameObject);
+            return;
         }
         else
         {
-            Destroy(gameObject);
+            instance = (T)this;
+        }
+        if(transform.parent ==null)
+        {
+            DontDestroyOnLoad(gameObject);
         }
     }
     

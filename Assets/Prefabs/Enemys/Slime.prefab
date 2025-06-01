@@ -102,6 +102,7 @@ GameObject:
   - component: {fileID: 4847176767983656809}
   - component: {fileID: 7071368951657700092}
   - component: {fileID: 7867906600304179875}
+  - component: {fileID: -420536204201266971}
   - component: {fileID: 995719075256410746}
   - component: {fileID: 7386859364297157447}
   m_Layer: 0
@@ -325,6 +326,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ee37e80abbe472141ab806efd864cf2b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &-420536204201266971
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3310787553118107113}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: caeb7472fde912344b850845fb5e8062, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  goldCoin: {fileID: 8003607697621486109, guid: 2f083f17a9aa26a40ab1f4ee552275af, type: 3}
+  healthGlobe: {fileID: 8003607697621486109, guid: a5635d5f8547e9542af4e34aa09e12c9, type: 3}
+  staminaGlobe: {fileID: 8003607697621486109, guid: 457dd4b638b234b40a862fa76f8d9ccc, type: 3}
+  dropChance: 0.5
+  maxGoldCoinsToDrop: 3
 --- !u!95 &995719075256410746
 Animator:
   serializedVersion: 5

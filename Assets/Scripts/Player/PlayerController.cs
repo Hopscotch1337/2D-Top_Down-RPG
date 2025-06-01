@@ -1,10 +1,6 @@
 using System.Collections;
-using System.Collections.Generic;
-using System.Runtime.CompilerServices;
-using UnityEditor.Tilemaps;
 using UnityEngine;
-using UnityEngine.InputSystem;
-using UnityEngine.Scripting.APIUpdating;
+
 
 public class PlayerController : Singelton<PlayerController>
 {
@@ -45,6 +41,8 @@ public class PlayerController : Singelton<PlayerController>
     {
         startingMoveSpeed = moveSpeed;
         playerControls.DashJump.Dash.performed += _ => Dash();
+        CameraController.Instance.SetPlayerCameraFollow();
+        ActiveInventory.Instance.ChangeActiveInventory(1); // 1 is default Sword
         // playerControls.DashJump.Jump.performed += _ => Jump();
     }
     private void OnEnable()
@@ -83,7 +81,7 @@ public class PlayerController : Singelton<PlayerController>
 
     private void Move()
     {
-        if ( knockBack.GettingKnockedBack) 
+        if ( knockBack.GettingKnockedBack || PlayerHealth.Instance.IsDead) 
         {
             return; // Prevent player movement while knocked back
         }
@@ -109,9 +107,10 @@ public class PlayerController : Singelton<PlayerController>
     }
 
     private void Dash(){
-        if (!isDashing)
+        if (!isDashing && Stamina.Instance.currentStamina > 0)
         {
-        StartCoroutine(DashRoutine());
+            StartCoroutine(DashRoutine());
+            Stamina.Instance.UseStamina();
         }
     }
 

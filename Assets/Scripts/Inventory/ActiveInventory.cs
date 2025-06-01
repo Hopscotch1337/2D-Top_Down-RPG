@@ -15,6 +15,7 @@ public class ActiveInventory : Singelton<ActiveInventory>
 
     protected override void Awake()
     {
+        base.Awake();
         playerControls = new PlayerControls();
     }
 
@@ -29,7 +30,7 @@ public class ActiveInventory : Singelton<ActiveInventory>
         playerControls.Enable();
     }
 
-    private void ChangeActiveInventory(int keyboardValue)
+    public void ChangeActiveInventory(int keyboardValue)
     {
         HighlightActiveInventory(keyboardValue - 1);
     }
@@ -47,6 +48,7 @@ public class ActiveInventory : Singelton<ActiveInventory>
 
     private void ChangeActiveWeapon()
     {
+        if (PlayerHealth.Instance.IsDead){ return; }
         if (ActiveWeapon.Instance.CurrentActiveWeapon != null)
         {
             Destroy(ActiveWeapon.Instance.CurrentActiveWeapon.gameObject);
@@ -54,14 +56,14 @@ public class ActiveInventory : Singelton<ActiveInventory>
         Transform childTransform = transform.GetChild(activeInventoryIndex);
         InventorySlot inventorySlot = childTransform.GetComponent<InventorySlot>();
         WeaponInfo weaponInfo = inventorySlot.GetWeaponInfo();
-        GameObject weaponToSpawn = weaponInfo.weaponPrefab;
-        // GameObject weaponToSpawn = transform.GetChild(activeInventoryIndex).GetComponentInChildren<InventorySlot>().GetWeaponInfo().weaponPrefab;
-
         if (weaponInfo == null)
         {
             ActiveWeapon.Instance.WeaponNull();
             return;
         }
+        GameObject weaponToSpawn = weaponInfo.weaponPrefab;
+        // GameObject weaponToSpawn = transform.GetChild(activeInventoryIndex).GetComponentInChildren<InventorySlot>().GetWeaponInfo().weaponPrefab;
+
 
         GameObject newWeapon = Instantiate(weaponToSpawn, ActiveWeapon.Instance.transform.position, Quaternion.identity);
             ActiveWeapon.Instance.transform.rotation = quaternion.Euler(0, 0, 0);

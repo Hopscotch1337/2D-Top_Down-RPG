@@ -466,6 +466,7 @@ GameObject:
   - component: {fileID: 6151313872556201399}
   - component: {fileID: 4141195817028446894}
   - component: {fileID: 1524110572417208421}
+  - component: {fileID: 3849049485469529160}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -654,7 +655,7 @@ MonoBehaviour:
   moveSpeed: 4
   dashSpeed: 4
   dashTime: 0.2
-  dashCooldown: 1
+  dashCooldown: 0.25
   playerTrailRenderer: {fileID: 8861476411670218166}
   weaponcollider: {fileID: 2063142722408304678}
   slashAnimationSpawnPoint: {fileID: 1117396405982583987}
@@ -700,3 +701,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   flashMat: {fileID: 2100000, guid: bfdd4427cd65e294db5dcb0a47d5f858, type: 2}
   flashingTime: 0.2
+--- !u!114 &3849049485469529160
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9043682981486674784}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 61623e0ad104e4a49ac35ea24e361ae9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  emptyStaminaSprite: {fileID: 21300000, guid: 8488652e1696d37429e24d740ed6ff23, type: 3}
+  fullStaminaSprite: {fileID: 21300000, guid: 66dc2e0493489d04580115d96cf59545, type: 3}
+  maxStamina: 5
+  staminaRecoveryTime: 5
+  currentStamina: 0

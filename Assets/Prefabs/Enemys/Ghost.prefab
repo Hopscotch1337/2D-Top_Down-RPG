@@ -19,6 +19,7 @@ GameObject:
   - component: {fileID: 1020992560114819189}
   - component: {fileID: 6570334233699794394}
   - component: {fileID: 5658541953561446019}
+  - component: {fileID: 5660842305540508798}
   - component: {fileID: 1328780694903905441}
   m_Layer: 0
   m_Name: Ghost
@@ -183,7 +184,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   roamChangeDirectionTime: 2
-  attackRange: 9
+  attackRange: 8
   enemyType: {fileID: 5658541953561446019}
   attackCooldown: 1
   attackWhileMoving: 0
@@ -257,13 +258,30 @@ MonoBehaviour:
   bulletSpeed: 8
   projectileRange: 12
   burstCount: 4
-  projectilesPerBurst: 7
+  projectilesPerBurst: 5
   angleSpread: 46
   spawningDistance: 0.3
   timeBetweenBursts: 0.5
   restTimeAfterBurst: 1
   stagger: 1
   oscilate: 1
+--- !u!114 &5660842305540508798
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4311868571278257353}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: caeb7472fde912344b850845fb5e8062, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  goldCoin: {fileID: 8003607697621486109, guid: 2f083f17a9aa26a40ab1f4ee552275af, type: 3}
+  healthGlobe: {fileID: 8003607697621486109, guid: a5635d5f8547e9542af4e34aa09e12c9, type: 3}
+  staminaGlobe: {fileID: 8003607697621486109, guid: 457dd4b638b234b40a862fa76f8d9ccc, type: 3}
+  dropChance: 0.5
+  maxGoldCoinsToDrop: 3
 --- !u!210 &1328780694903905441
 SortingGroup:
   m_ObjectHideFlags: 0

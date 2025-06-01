@@ -43,10 +43,10 @@ public class ActiveWeapon : Singelton<ActiveWeapon>
     {
         playerControls.Enable();
     }
-    private void OnDisable()
-    {
-        playerControls.Disable();
-    }
+    // private void OnDisable()
+    // {
+    //     playerControls.Disable();
+    // }
 
     private void HandleWeaponCooldwon()
     {

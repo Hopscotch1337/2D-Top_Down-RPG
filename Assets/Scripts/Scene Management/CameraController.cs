@@ -5,25 +5,17 @@ using Cinemachine;
 
 public class CameraController : Singelton<CameraController>
 {
-    private Transform playerTransform;
     private CinemachineVirtualCamera cinemachineVirtualCamera;
 
     private void Start()
     {
-        if (playerTransform == null)
-        {
-            playerTransform = FindObjectOfType<PlayerController>().transform;
-            SetPlayerCameraFollow();
-        }
+        SetPlayerCameraFollow(); 
     }
 
     public void SetPlayerCameraFollow()
     {
-        if (cinemachineVirtualCamera == null)
-        {
-            cinemachineVirtualCamera = FindObjectOfType<CinemachineVirtualCamera>();
-        }
-        cinemachineVirtualCamera.Follow = playerTransform;
+        cinemachineVirtualCamera = FindObjectOfType<CinemachineVirtualCamera>();
+        cinemachineVirtualCamera.Follow = PlayerController.Instance.transform;
     }
     
 }
