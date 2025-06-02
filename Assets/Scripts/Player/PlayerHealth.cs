@@ -19,6 +19,7 @@ public class PlayerHealth : Singelton<PlayerHealth>
     const string HEALTH_SLIDER = "HealthSlider";
     readonly int DEATH_HASH = Animator.StringToHash("Death");
     private Animator myAnimator;
+    [TextArea] string description = "PlayerHealth manages the player's health, damage, and death. It handles taking damage from enemies, healing, and updating the health slider UI. It also manages knockback effects when taking damage.";
     
 
 

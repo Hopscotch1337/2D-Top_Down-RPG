@@ -5,7 +5,7 @@ using UnityEngine;
 public class Shooter : MonoBehaviour, IEnemy
 {
     [SerializeField] private GameObject projectilePrefab;
-    [SerializeField] private float bulletSpeed = 10f;
+    [SerializeField] private float projectileSpeed = 10f;
     [SerializeField] private float projectileRange = 10f;
     [SerializeField] private int burstCount = 4;
     [SerializeField] private int projectilesPerBurst = 1;
@@ -28,11 +28,7 @@ public class Shooter : MonoBehaviour, IEnemy
         if (!oscilate) { stagger = false; }
         if (spawningDistance < 0.1f) { spawningDistance = 0.1f; }
         if (timeBetweenBursts < 0.1f) { timeBetweenBursts = 0.1f; }
-        if (bulletSpeed < 0.1f) { bulletSpeed = 0.1f; }
-
-
-
-        
+        if (projectileSpeed < 0.1f) { projectileSpeed = 0.1f; }
     }
     private void Awake()
     {
@@ -78,7 +74,7 @@ public class Shooter : MonoBehaviour, IEnemy
                 newProjectile.transform.right = newProjectile.transform.position - transform.position;
                 if (newProjectile.TryGetComponent(out Projectile projectile))
                 {
-                    projectile.UpdateProjectileSpeed(bulletSpeed);
+                    projectile.UpdateProjectileSpeed(projectileSpeed);
                     projectile.UpdateProjectileRange(projectileRange);
                 }
                 if (stagger)
@@ -122,7 +118,4 @@ public class Shooter : MonoBehaviour, IEnemy
 
         return pos;
     }
-
-
-
 }
