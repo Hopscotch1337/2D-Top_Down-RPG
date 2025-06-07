@@ -9,26 +9,27 @@ public class TooltipTrigger : MonoBehaviour, IPointerEnterHandler, IPointerExitH
     [SerializeField] private string header;
     [SerializeField] private string content;
 
+
     // This method is called when the pointer enters the UI element
     public void OnPointerEnter(PointerEventData eventData)
     {
-        ToggleTooltip.EnableTooltip(header, content);
+        ToggleTooltip.Instance.EnableTooltip(header, content);
     }
 
     // This method is called when the pointer exits the UI element
     public void OnPointerExit(PointerEventData eventData)
     {
-        ToggleTooltip.DisableTooltip();
+        ToggleTooltip.Instance.DisableTooltip();
     }
 
     private void OnMouseEnter()
     {
-        ToggleTooltip.EnableTooltip(header, content);
+        ToggleTooltip.Instance.EnableTooltip(header, content);
     }
 
     private void OnMouseExit()
     {
-        ToggleTooltip.DisableTooltip();
+        ToggleTooltip.Instance.DisableTooltip();
     }
 }
 

@@ -1,34 +1,44 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class ToggleTooltip : Singelton<ToggleTooltip>
 {
-    private static ToggleTooltip instance;
+    //public static new ToggleTooltip Instance;
     [SerializeField] private Tooltip tooltip;
     [SerializeField] private float FadeTooltipDuration = 0.1f;
     private CanvasGroup canvasGroup;
+    private EventSystem eventSystem;
 
     protected override void Awake()
     {
         base.Awake();
-        instance = this;
         canvasGroup = tooltip.GetComponent<CanvasGroup>();
+        if (FindObjectOfType<EventSystem>() == null)
+        {
+            var go = new GameObject("EventSystem", typeof(EventSystem), typeof(StandaloneInputModule));
+            DontDestroyOnLoad(go);
+        }
+    }
+    private void Start()
+    {
+        canvasGroup.alpha = 0f;
+        tooltip.gameObject.SetActive(false);
     }
 
-    public static void EnableTooltip(string header, string content)
+    public void EnableTooltip(string header, string content)
     {
-        instance.canvasGroup.alpha = 0f;
+        canvasGroup.alpha = 0f;
         if (header == "" && content == "") { return; }
-        instance.tooltip.SetText(header, content);
-        instance.StopAllCoroutines();
-        instance.StartCoroutine(instance.FadeInTooltip());
+        tooltip.SetText(header, content);
+        StopAllCoroutines();
+        StartCoroutine(FadeInTooltip());
     }
 
     IEnumerator FadeInTooltip()
     {
-        instance.tooltip.gameObject.SetActive(true);
-
+        tooltip.gameObject.SetActive(true);
         float timer = 0f;
 
         while (timer < FadeTooltipDuration)
@@ -40,16 +50,14 @@ public class ToggleTooltip : Singelton<ToggleTooltip>
         }
         canvasGroup.alpha = 1f;
     }
-    public static void DisableTooltip()
+    public void DisableTooltip()
     {
-        instance.StopAllCoroutines();
-        instance.StartCoroutine(instance.FadeoutTooltip());
+        StopAllCoroutines();
+        StartCoroutine(FadeoutTooltip());
     }
     IEnumerator FadeoutTooltip()
     {
-
         float timer = 0f;
-
         while (timer < FadeTooltipDuration)
         {
             timer += Time.deltaTime;
@@ -58,6 +66,6 @@ public class ToggleTooltip : Singelton<ToggleTooltip>
             yield return null;
         }
         canvasGroup.alpha = 0f;
-        instance.tooltip.gameObject.SetActive(false);
+        tooltip.gameObject.SetActive(false);
     }
 }
