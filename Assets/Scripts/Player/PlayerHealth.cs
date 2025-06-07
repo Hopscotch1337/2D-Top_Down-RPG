@@ -21,7 +21,6 @@ public class PlayerHealth : Singelton<PlayerHealth>
     private Animator myAnimator;
     
 
-
     protected override void Awake()
     {
         base.Awake();

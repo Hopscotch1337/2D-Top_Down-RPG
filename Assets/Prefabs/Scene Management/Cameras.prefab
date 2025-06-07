@@ -180,7 +180,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f453f694addf4275988fac205bc91968, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_BoundingShape2D: {fileID: 815819556706749114}
+  m_BoundingShape2D: {fileID: 0}
   m_Damping: 0.5
   m_MaxWindowSize: -1
 --- !u!1 &2993750981496851768
@@ -216,7 +216,7 @@ Transform:
   - {fileID: 9010091232112605904}
   - {fileID: 229120385238508670}
   m_Father: {fileID: 0}
-  m_RootOrder: 7
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &5878029232693874209
 GameObject:
@@ -227,8 +227,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 9010091232112605904}
-  - component: {fileID: 815819556706749114}
-  m_Layer: 3
+  - component: {fileID: 7195469326394953564}
+  m_Layer: 2
   m_Name: Camera Confiner
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -250,7 +250,7 @@ Transform:
   m_Father: {fileID: 1971307265600113480}
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!60 &815819556706749114
+--- !u!60 &7195469326394953564
 PolygonCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -279,7 +279,7 @@ PolygonCollider2D:
   m_CallbackLayers:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
@@ -294,10 +294,18 @@ PolygonCollider2D:
   m_AutoTiling: 0
   m_Points:
     m_Paths:
-    - - {x: -13.633921, y: 17.121572}
-      - {x: -13.443648, y: -13.638571}
-      - {x: 31.181702, y: -13.610611}
-      - {x: 31.205963, y: 17.227598}
+    - - {x: -2.5, y: -41}
+      - {x: 46.79634, y: -40.932007}
+      - {x: 46.780228, y: -9.722157}
+      - {x: 69.871284, y: -9.896454}
+      - {x: 69.93356, y: -29.51711}
+      - {x: 109.84664, y: -29.552681}
+      - {x: 109.87508, y: 40.122463}
+      - {x: 28.954273, y: 39.785576}
+      - {x: 29.01898, y: 16.72273}
+      - {x: -13.3552685, y: 17.076298}
+      - {x: -13.4623375, y: -15.67695}
+      - {x: -2.5489435, y: -15.690983}
   m_UseDelaunayMesh: 0
 --- !u!1 &6941032693140412252
 GameObject:

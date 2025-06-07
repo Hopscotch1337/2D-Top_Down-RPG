@@ -18,7 +18,7 @@ public class Grape : MonoBehaviour, IEnemy
     public void Attack()
     {
         myAnimator.SetTrigger(ATTACK_HASH);
-        //newArrow.GetComponent<Projectile>().UpdateProjectileRange(weaponInfo.weaponRange);
+        
         if (transform.position.x < PlayerController.Instance.transform.position.x)
             { mySpriteRenderer.flipX = false;}
         else
