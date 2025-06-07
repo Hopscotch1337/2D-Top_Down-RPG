@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 4688207607970642832}
   - component: {fileID: 6759016522252494498}
   - component: {fileID: 5758017751439562984}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: WeaponCollider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -131,7 +131,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4652660683626205296}
   - component: {fileID: 8861476411670218166}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Trail Renderer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -286,7 +286,7 @@ GameObject:
   - component: {fileID: 6227326685298933671}
   - component: {fileID: 3055740031829443692}
   - component: {fileID: 2769841017960850126}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: ActiveWeapon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -343,7 +343,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6592632703405140504}
   - component: {fileID: 7089803339316100300}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Shadow
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -426,7 +426,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1117396405982583987}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: SlashAnimation
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -467,7 +467,7 @@ GameObject:
   - component: {fileID: 4141195817028446894}
   - component: {fileID: 1524110572417208421}
   - component: {fileID: 3849049485469529160}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Player
   m_TagString: Player
   m_Icon: {fileID: 0}

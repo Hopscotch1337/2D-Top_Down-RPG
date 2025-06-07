@@ -176,7 +176,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2807fa6f219d84e46a212a1070c3d16f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  laserMaxGrowTime: 0.15
+  laserMaxGrowTime: 0.22
 --- !u!114 &5004685453740840980
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -189,4 +189,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7549ae2a92d7d904f827a2115092cca7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  fadeTime: 0.8
+  fadeTime: 0.3
+  fadeDelay: 0

@@ -25,6 +25,7 @@ public class TooltipTrigger : MonoBehaviour, IPointerEnterHandler, IPointerExitH
     private void OnMouseEnter()
     {
         ToggleTooltip.Instance.EnableTooltip(header, content);
+        Debug.Log("Mouse entered: " + header);
     }
 
     private void OnMouseExit()

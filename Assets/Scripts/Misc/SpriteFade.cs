@@ -5,6 +5,7 @@ using UnityEngine;
 public class SpriteFade : MonoBehaviour
 {
     [SerializeField] private float fadeTime = 0.4f; // Time to fade out the sprite
+    [SerializeField] private float fadeDelay = 0f;
     private SpriteRenderer spriteRenderer;
 
     private void Awake()
@@ -13,6 +14,7 @@ public class SpriteFade : MonoBehaviour
     }
     public IEnumerator SpriteFadeOutRoutine()
     {
+        yield return new WaitForSeconds(fadeDelay);
         float elapsedTime = 0f;
         while (elapsedTime < fadeTime)
         {
