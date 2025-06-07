@@ -93,7 +93,7 @@ public class Shooter : MonoBehaviour, IEnemy
     {
         Vector2 targetDirection = PlayerController.Instance.transform.position - transform.position;
         float targetAngle = Mathf.Atan2(targetDirection.y, targetDirection.x) * Mathf.Rad2Deg;
-        float angleStep = targetAngle;
+        //float angleStep = targetAngle;
         startAngle = targetAngle;
         endAngle = targetAngle;
         currentAngle = targetAngle;

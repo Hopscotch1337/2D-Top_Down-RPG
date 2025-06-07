@@ -77,18 +77,20 @@ public class EnemyAI : MonoBehaviour
             state = State.Roaming;
             return;
         }
-        if (canAttack && attackRange !=0)
+        
+        if (attackWhileMoving == false)
+        {
+            enemyPathfinding.CancelMovement();
+        }
+        else
+        {
+            enemyPathfinding.SetNewposition((PlayerController.Instance.transform.position - transform.position).normalized * 1.6f);
+        }
+        
+        if (canAttack && attackRange != 0)
         {
             canAttack = false;
-            if (attackWhileMoving == false)
-            {
-                enemyPathfinding.CancelMovement();
-            }
-            else
-            {
-                enemyPathfinding.SetNewposition(PlayerController.Instance.transform.position - transform.position); 
-            }
-                
+
             (enemyType as IEnemy).Attack();
             StartCoroutine(AttackCooldownRoutine());
         }

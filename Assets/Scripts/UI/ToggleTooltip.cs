@@ -5,7 +5,6 @@ using UnityEngine.EventSystems;
 
 public class ToggleTooltip : Singelton<ToggleTooltip>
 {
-    //public static new ToggleTooltip Instance;
     [SerializeField] private Tooltip tooltip;
     [SerializeField] private float FadeTooltipDuration = 0.1f;
     private CanvasGroup canvasGroup;
@@ -15,11 +14,6 @@ public class ToggleTooltip : Singelton<ToggleTooltip>
     {
         base.Awake();
         canvasGroup = tooltip.GetComponent<CanvasGroup>();
-        if (FindObjectOfType<EventSystem>() == null)
-        {
-            var go = new GameObject("EventSystem", typeof(EventSystem), typeof(StandaloneInputModule));
-            DontDestroyOnLoad(go);
-        }
     }
     private void Start()
     {
