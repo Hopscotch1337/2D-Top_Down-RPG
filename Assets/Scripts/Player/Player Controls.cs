@@ -176,7 +176,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             ""id"": ""63896055-26f3-41ea-a736-b2f4b4ad59f9"",
             ""actions"": [
                 {
-                    ""name"": ""Keyboard"",
+                    ""name"": ""Hotbar"",
                     ""type"": ""Value"",
                     ""id"": ""834d70d8-b6fd-4e90-821f-d34227e4f610"",
                     ""expectedControlType"": """",
@@ -192,6 +192,24 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Open Inventory"",
+                    ""type"": ""Button"",
+                    ""id"": ""8dab6605-7dc2-4e26-8479-3a3ff9cc6ebb"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Use"",
+                    ""type"": ""Button"",
+                    ""id"": ""95fbd7da-7626-4937-8028-b6c1f88f1955"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -202,7 +220,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": ""Scale"",
                     ""groups"": """",
-                    ""action"": ""Keyboard"",
+                    ""action"": ""Hotbar"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -213,7 +231,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": ""Scale(factor=2)"",
                     ""groups"": """",
-                    ""action"": ""Keyboard"",
+                    ""action"": ""Hotbar"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -224,7 +242,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": ""Scale(factor=3)"",
                     ""groups"": """",
-                    ""action"": ""Keyboard"",
+                    ""action"": ""Hotbar"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -235,7 +253,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": ""Scale(factor=4)"",
                     ""groups"": """",
-                    ""action"": ""Keyboard"",
+                    ""action"": ""Hotbar"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -246,7 +264,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": ""Scale(factor=5)"",
                     ""groups"": """",
-                    ""action"": ""Keyboard"",
+                    ""action"": ""Hotbar"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -263,12 +281,23 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
-                    ""id"": ""be02fc36-07dc-4a90-b01e-d818926fba89"",
+                    ""id"": ""ff766017-68a7-404a-a60c-6e9147feb4fe"",
+                    ""path"": ""<Keyboard>/b"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Open Inventory"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""88bc211d-d77a-4d1a-b2dc-86ec05228607"",
                     ""path"": ""<Keyboard>/e"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Next"",
+                    ""action"": ""Use"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -289,8 +318,10 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         m_DashJump_Jump = m_DashJump.FindAction("Jump", throwIfNotFound: true);
         // Inventory
         m_Inventory = asset.FindActionMap("Inventory", throwIfNotFound: true);
-        m_Inventory_Keyboard = m_Inventory.FindAction("Keyboard", throwIfNotFound: true);
+        m_Inventory_Hotbar = m_Inventory.FindAction("Hotbar", throwIfNotFound: true);
         m_Inventory_Next = m_Inventory.FindAction("Next", throwIfNotFound: true);
+        m_Inventory_OpenInventory = m_Inventory.FindAction("Open Inventory", throwIfNotFound: true);
+        m_Inventory_Use = m_Inventory.FindAction("Use", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -498,14 +529,18 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
     // Inventory
     private readonly InputActionMap m_Inventory;
     private List<IInventoryActions> m_InventoryActionsCallbackInterfaces = new List<IInventoryActions>();
-    private readonly InputAction m_Inventory_Keyboard;
+    private readonly InputAction m_Inventory_Hotbar;
     private readonly InputAction m_Inventory_Next;
+    private readonly InputAction m_Inventory_OpenInventory;
+    private readonly InputAction m_Inventory_Use;
     public struct InventoryActions
     {
         private @PlayerControls m_Wrapper;
         public InventoryActions(@PlayerControls wrapper) { m_Wrapper = wrapper; }
-        public InputAction @Keyboard => m_Wrapper.m_Inventory_Keyboard;
+        public InputAction @Hotbar => m_Wrapper.m_Inventory_Hotbar;
         public InputAction @Next => m_Wrapper.m_Inventory_Next;
+        public InputAction @OpenInventory => m_Wrapper.m_Inventory_OpenInventory;
+        public InputAction @Use => m_Wrapper.m_Inventory_Use;
         public InputActionMap Get() { return m_Wrapper.m_Inventory; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -515,22 +550,34 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         {
             if (instance == null || m_Wrapper.m_InventoryActionsCallbackInterfaces.Contains(instance)) return;
             m_Wrapper.m_InventoryActionsCallbackInterfaces.Add(instance);
-            @Keyboard.started += instance.OnKeyboard;
-            @Keyboard.performed += instance.OnKeyboard;
-            @Keyboard.canceled += instance.OnKeyboard;
+            @Hotbar.started += instance.OnHotbar;
+            @Hotbar.performed += instance.OnHotbar;
+            @Hotbar.canceled += instance.OnHotbar;
             @Next.started += instance.OnNext;
             @Next.performed += instance.OnNext;
             @Next.canceled += instance.OnNext;
+            @OpenInventory.started += instance.OnOpenInventory;
+            @OpenInventory.performed += instance.OnOpenInventory;
+            @OpenInventory.canceled += instance.OnOpenInventory;
+            @Use.started += instance.OnUse;
+            @Use.performed += instance.OnUse;
+            @Use.canceled += instance.OnUse;
         }
 
         private void UnregisterCallbacks(IInventoryActions instance)
         {
-            @Keyboard.started -= instance.OnKeyboard;
-            @Keyboard.performed -= instance.OnKeyboard;
-            @Keyboard.canceled -= instance.OnKeyboard;
+            @Hotbar.started -= instance.OnHotbar;
+            @Hotbar.performed -= instance.OnHotbar;
+            @Hotbar.canceled -= instance.OnHotbar;
             @Next.started -= instance.OnNext;
             @Next.performed -= instance.OnNext;
             @Next.canceled -= instance.OnNext;
+            @OpenInventory.started -= instance.OnOpenInventory;
+            @OpenInventory.performed -= instance.OnOpenInventory;
+            @OpenInventory.canceled -= instance.OnOpenInventory;
+            @Use.started -= instance.OnUse;
+            @Use.performed -= instance.OnUse;
+            @Use.canceled -= instance.OnUse;
         }
 
         public void RemoveCallbacks(IInventoryActions instance)
@@ -563,7 +610,9 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
     }
     public interface IInventoryActions
     {
-        void OnKeyboard(InputAction.CallbackContext context);
+        void OnHotbar(InputAction.CallbackContext context);
         void OnNext(InputAction.CallbackContext context);
+        void OnOpenInventory(InputAction.CallbackContext context);
+        void OnUse(InputAction.CallbackContext context);
     }
 }

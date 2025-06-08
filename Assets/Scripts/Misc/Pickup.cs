@@ -98,7 +98,7 @@ public class Pickup : MonoBehaviour
                 EconomyManager.Instance.UpdateGoldCoins(1);
                 break;
             case PickupType.HealthGlobe:
-                PlayerHealth.Instance.HealPlayer();
+                PlayerHealth.Instance.HealPlayer(1);
                 break;
             case PickupType.StaminaGlobe:
                 Stamina.Instance.RestoreStamina(1);
