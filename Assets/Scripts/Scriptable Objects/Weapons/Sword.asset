@@ -12,6 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c82f35d831b5e69439e2866a036ae26b, type: 3}
   m_Name: Sword
   m_EditorClassIdentifier: 
+  itemName: Broadsword
+  icon: {fileID: 21300000, guid: c799170ed2b79874a82efa2e14ac7d6a, type: 3}
+  itemType: 0
+  isStackable: 0
+  maxStack: 1
   weaponPrefab: {fileID: 8299483852058082899, guid: 7c469baf1c04ec847b0573bf78f37459, type: 3}
   attackCooldown: 0.5
   weaponDamage: 1

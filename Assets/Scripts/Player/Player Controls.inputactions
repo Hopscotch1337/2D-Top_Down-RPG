@@ -154,7 +154,7 @@
             "id": "63896055-26f3-41ea-a736-b2f4b4ad59f9",
             "actions": [
                 {
-                    "name": "Keyboard",
+                    "name": "Hotbar",
                     "type": "Value",
                     "id": "834d70d8-b6fd-4e90-821f-d34227e4f610",
                     "expectedControlType": "",
@@ -170,6 +170,24 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "Open Inventory",
+                    "type": "Button",
+                    "id": "8dab6605-7dc2-4e26-8479-3a3ff9cc6ebb",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Use",
+                    "type": "Button",
+                    "id": "95fbd7da-7626-4937-8028-b6c1f88f1955",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -180,7 +198,7 @@
                     "interactions": "",
                     "processors": "Scale",
                     "groups": "",
-                    "action": "Keyboard",
+                    "action": "Hotbar",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -191,7 +209,7 @@
                     "interactions": "",
                     "processors": "Scale(factor=2)",
                     "groups": "",
-                    "action": "Keyboard",
+                    "action": "Hotbar",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -202,7 +220,7 @@
                     "interactions": "",
                     "processors": "Scale(factor=3)",
                     "groups": "",
-                    "action": "Keyboard",
+                    "action": "Hotbar",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -213,7 +231,7 @@
                     "interactions": "",
                     "processors": "Scale(factor=4)",
                     "groups": "",
-                    "action": "Keyboard",
+                    "action": "Hotbar",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -224,7 +242,7 @@
                     "interactions": "",
                     "processors": "Scale(factor=5)",
                     "groups": "",
-                    "action": "Keyboard",
+                    "action": "Hotbar",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -241,12 +259,23 @@
                 },
                 {
                     "name": "",
-                    "id": "be02fc36-07dc-4a90-b01e-d818926fba89",
+                    "id": "ff766017-68a7-404a-a60c-6e9147feb4fe",
+                    "path": "<Keyboard>/b",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Open Inventory",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "88bc211d-d77a-4d1a-b2dc-86ec05228607",
                     "path": "<Keyboard>/e",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Next",
+                    "action": "Use",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

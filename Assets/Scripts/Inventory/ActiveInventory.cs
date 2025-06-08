@@ -1,75 +1,106 @@
-using System.Collections;
-using System.Collections.Generic;
-using System.Runtime.CompilerServices;
-using Unity.Mathematics;
+
 using UnityEngine;
-using UnityEngine.UI;
+using Unity.Mathematics;
+
 
 public class ActiveInventory : Singelton<ActiveInventory>
-
 {
-    private int activeInventoryIndex = 0;
-    private PlayerControls playerControls;
+    public InventorySlot[] hotbarSlots; // Inspector: deine 5 Slots
 
-
+    private PlayerControls controls;
+    public int ActiveInventoryIndex { get; private set; } = 0;
 
     protected override void Awake()
     {
-        base.Awake();
-        playerControls = new PlayerControls();
-    }
-
-    private void Start()
-    {
-        playerControls.Inventory.Keyboard.performed += ctx => ChangeActiveInventory((int)ctx.ReadValue<float>());
-        ChangeActiveInventory(1);
+        base.Awake(); // Call the base class Awake method
+        
+        controls = new PlayerControls();
     }
 
     private void OnEnable()
     {
-        playerControls.Enable();
+        controls.Enable();
+        controls.Inventory.Hotbar.performed += ctx => ChangeActiveSlot((int)ctx.ReadValue<float>() - 1);
+        controls.Inventory.OpenInventory.performed += _ => ToggleInventory();
+        controls.Inventory.Use.performed += _ => UseActiveItem();
     }
 
-    public void ChangeActiveInventory(int keyboardValue)
+    private void Start()
     {
-        HighlightActiveInventory(keyboardValue - 1);
+        if (hotbarSlots == null || hotbarSlots.Length == 0) hotbarSlots = GetComponentsInChildren<InventorySlot>();
     }
 
-    private void HighlightActiveInventory(int index)
+    public void RefreshSlot(int idx)
     {
-        activeInventoryIndex = index;
-        foreach (Transform inventorySlot in transform)
+        if (hotbarSlots == null || hotbarSlots.Length == 0) hotbarSlots = GetComponentsInChildren<InventorySlot>();
+        hotbarSlots[idx].Refresh();
+    }
+    public void RefreshActiveSlot()
+    {
+        ChangeActiveSlot(ActiveInventoryIndex);
+    }
+    public void ChangeActiveSlot(int idx)
+    {
+        if (hotbarSlots == null || hotbarSlots.Length == 0) hotbarSlots = GetComponentsInChildren<InventorySlot>();
+        ActiveInventoryIndex = Mathf.Clamp(idx, 0, hotbarSlots.Length - 1);
+
+        // Highlight
+        for (int i = 0; i < hotbarSlots.Length; i++)
+            hotbarSlots[i].SetHighlight(i == ActiveInventoryIndex);
+
+        // Equip-Logik
+        EquipWeapon();
+
+        // synchronisieren mit Inventar-Popup (optional)
+        // InventoryUI.Instance.Highlight(activeIndex);
+    }
+
+    private void EquipWeapon()
+    {
+        Debug.Log("equip weapon wurde ausgeführt");
+        if (PlayerHealth.Instance.IsDead) return;
+
+        if (ActiveWeapon.Instance.CurrentActiveWeapon != null) Destroy(ActiveWeapon.Instance.CurrentActiveWeapon.gameObject);
+
+        var entry = InventoryManager.Instance.hotbarItems[ActiveInventoryIndex];
+        if (entry?.itemInfo is WeaponInfo wInfo)
         {
-            inventorySlot.GetChild(0).gameObject.SetActive(false);
+            var spawnedWeapon = Instantiate(wInfo.weaponPrefab, ActiveWeapon.Instance.transform.position, Quaternion.identity); //,ActiveWeapon.Instance.transform
+            ActiveWeapon.Instance.transform.rotation = quaternion.Euler(0, 0, 0); //Richtet die Waffe nach 000 aus
+
+            spawnedWeapon.transform.parent = ActiveWeapon.Instance.transform; //setzt die Waffe an das Transform des Parent
+            ActiveWeapon.Instance.NewWeapon(spawnedWeapon.GetComponent<MonoBehaviour>());
         }
-        this.transform.GetChild(activeInventoryIndex).GetChild(0).gameObject.SetActive(true);
-        ChangeActiveWeapon();
-    }
-
-    private void ChangeActiveWeapon()
-    {
-        if (PlayerHealth.Instance.IsDead){ return; }
-        if (ActiveWeapon.Instance.CurrentActiveWeapon != null)
+        else
         {
-            Destroy(ActiveWeapon.Instance.CurrentActiveWeapon.gameObject);
-        }
-        Transform childTransform = transform.GetChild(activeInventoryIndex);
-        InventorySlot inventorySlot = childTransform.GetComponent<InventorySlot>();
-        WeaponInfo weaponInfo = inventorySlot.GetWeaponInfo();
-        if (weaponInfo == null)
-        {
+            Debug.Log("keine waffe");
             ActiveWeapon.Instance.WeaponNull();
-            return;
         }
-        GameObject weaponToSpawn = weaponInfo.weaponPrefab;
-        // GameObject weaponToSpawn = transform.GetChild(activeInventoryIndex).GetComponentInChildren<InventorySlot>().GetWeaponInfo().weaponPrefab;
-
-
-        GameObject newWeapon = Instantiate(weaponToSpawn, ActiveWeapon.Instance.transform.position, Quaternion.identity);
-            ActiveWeapon.Instance.transform.rotation = quaternion.Euler(0, 0, 0);
-
-            newWeapon.transform.parent = ActiveWeapon.Instance.transform;
-            ActiveWeapon.Instance.NewWeapon(newWeapon.GetComponent<MonoBehaviour>());
     }
-        
+
+    private void UseActiveItem()
+    {
+        var entry = InventoryManager.Instance.hotbarItems[ActiveInventoryIndex];
+        if (entry == null) return;
+
+        if (entry.itemInfo is PotionInfo pInfo)
+        {
+            PlayerHealth.Instance.HealPlayer(pInfo.healAmount);
+            InventoryManager.Instance.RemoveFromList(SlotType.Hotbar, ActiveInventoryIndex, 1);
+            RefreshSlot(ActiveInventoryIndex);
+        }
+    }
+
+    private void ToggleInventory()
+    {
+        if (InventoryUI.Instance.gameObject.activeSelf)
+        {
+            InventoryUI.Instance.gameObject.SetActive(false);
+        }
+        else
+        {
+            InventoryUI.Instance.gameObject.SetActive(true);
+        }
+    }
+
 }

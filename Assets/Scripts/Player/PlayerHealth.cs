@@ -75,11 +75,11 @@ public class PlayerHealth : Singelton<PlayerHealth>
         Destroy(gameObject);
         SceneManager.LoadScene("Town_0");
     }
-    public void HealPlayer()
+    public void HealPlayer(int amount)
     {
         if (currentHealth < maxHealth)
         {
-            currentHealth++;
+            currentHealth += amount;
             UpdateHealthSlider();
         }
     }
