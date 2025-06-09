@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
+using TMPro;
 
 [RequireComponent(typeof(CanvasGroup))]
 public class InventorySlot : MonoBehaviour,
@@ -12,7 +13,7 @@ public class InventorySlot : MonoBehaviour,
     [Header("UI-Referenzen")]
     public Image     iconImage;
     public GameObject highlightBorder;
-    // (optional) public Text quantityText;
+    public TMP_Text quantityText;
 
     private CanvasGroup canvasGroup;
     private Canvas      rootCanvas;
@@ -49,15 +50,14 @@ public class InventorySlot : MonoBehaviour,
         {
             iconImage.enabled = false;
             iconImage.sprite  = null;
+            quantityText.text = "";
             return;
         }
 
         // 5) Ansonsten Icon setzen
         iconImage.enabled = true;
         iconImage.sprite  = entry.itemInfo.icon;
-        // quantityText.text = entry.itemInfo.isStackable
-        //     ? entry.quantity.ToString()
-        //     : "";
+        quantityText.text = entry.itemInfo.isStackable ? "x" + entry.quantity.ToString(): "";
     }
 
     public void SetHighlight(bool on)

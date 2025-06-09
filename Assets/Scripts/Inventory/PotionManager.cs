@@ -2,14 +2,16 @@
 using System.Collections;
 using UnityEngine;
 
-public class Potions : MonoBehaviour
+public class PotionManager : Singelton<PotionManager>
 {
-    [Header("Referenzen")]
-    public PlayerHealth playerHealth;  // Dein Skript, das Health/Speed/Damage/Stamina verwaltet
+    //[Header("Referenzen")]
+
 
     /// <summary>
     /// Wird aufgerufen, wenn der Spieler einen Trank benutzt.
     /// </summary>
+    /// 
+     
     public void UsePotion(PotionInfo potion)
     {
         foreach (var effect in potion.effects)
@@ -17,10 +19,10 @@ public class Potions : MonoBehaviour
             switch (effect.effectType)
             {
                 case PotionEffectType.Heal:
-                    ApplyHeal((int)effect.magnitude);
+                    PlayerHealth.Instance.HealPlayer((int)effect.magnitude);
                     break;
                 case PotionEffectType.MoveSpeed:
-                case PotionEffectType.Damage:
+                case PotionEffectType.DamageIncrease:
                 case PotionEffectType.Stamina:
                     StartCoroutine(ApplyBuff(effect));
                     break;
@@ -28,12 +30,7 @@ public class Potions : MonoBehaviour
         }
     }
 
-    private void ApplyHeal(int amount)
-    {
-        playerStats.CurrentHealth += amount;
-        playerStats.CurrentHealth = Mathf.Min(playerStats.CurrentHealth, playerStats.MaxHealth);
-        Debug.Log($"Healed for {amount} HP.");
-    }
+
 
     private IEnumerator ApplyBuff(PotionEffect effect)
     {
@@ -41,17 +38,17 @@ public class Potions : MonoBehaviour
         switch (effect.effectType)
         {
             case PotionEffectType.MoveSpeed:
-                playerStats.MoveSpeed += effect.magnitude;
+                // playerStats.MoveSpeed += effect.magnitude;
                 Debug.Log($"Speed +{effect.magnitude} for {effect.duration}s");
                 break;
             case PotionEffectType.DamageIncrease:
-                playerStats.DamageMultiplier += effect.magnitude;
+                // playerStats.DamageMultiplier += effect.magnitude;
                 Debug.Log($"Damage +{effect.magnitude} for {effect.duration}s");
                 break;
-            case PotionEffectType.Stamina:
-                playerStats.StaminaRegen += effect.magnitude;
-                Debug.Log($"Stamina Regen +{effect.magnitude} for {effect.duration}s");
-                break;
+            // case PotionEffectType.Stamina:
+            //     playerStats.StaminaRegen += effect.magnitude;
+            //     Debug.Log($"Stamina Regen +{effect.magnitude} for {effect.duration}s");
+            //     break;
         }
 
         // Warte Buff-Dauer
@@ -61,14 +58,14 @@ public class Potions : MonoBehaviour
         switch (effect.effectType)
         {
             case PotionEffectType.MoveSpeed:
-                playerStats.MoveSpeed -= effect.magnitude;
+                // playerStats.MoveSpeed -= effect.magnitude;
                 break;
-            case PotionEffectType.Damage:
-                playerStats.DamageMultiplier -= effect.magnitude;
+            case PotionEffectType.DamageIncrease:
+                // playerStats.DamageMultiplier -= effect.magnitude;
                 break;
-            case PotionEffectType.Stamina:
-                playerStats.StaminaRegen -= effect.magnitude;
-                break;
+            // case PotionEffectType.Stamina:
+            //     playerStats.StaminaRegen -= effect.magnitude;
+            //     break;
         }
         Debug.Log($"{effect.effectType} buff ended.");
     }

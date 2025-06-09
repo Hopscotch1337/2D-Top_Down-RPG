@@ -3729,10 +3729,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 156298323100003856, guid: 337c2f91dd0a0a14789894fffff398ab, type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: -70
-      objectReference: {fileID: 0}
     - target: {fileID: 560291203207715081, guid: 337c2f91dd0a0a14789894fffff398ab, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -4237,14 +4233,6 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 6859390266010963925, guid: 337c2f91dd0a0a14789894fffff398ab, type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7466427723387473953, guid: 337c2f91dd0a0a14789894fffff398ab, type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: -74
-      objectReference: {fileID: 0}
     - target: {fileID: 8320137706439085309, guid: 337c2f91dd0a0a14789894fffff398ab, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -4269,10 +4257,6 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 8321304471674759764, guid: 337c2f91dd0a0a14789894fffff398ab, type: 3}
-      propertyPath: m_Sprite
-      value: 
-      objectReference: {fileID: 21300000, guid: 005e9c5b5f4f30e42975c8f382e0f385, type: 3}
     - target: {fileID: 8441839817740113888, guid: 337c2f91dd0a0a14789894fffff398ab, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -4389,7 +4373,6 @@ GameObject:
   m_Component:
   - component: {fileID: 312962275}
   - component: {fileID: 312962274}
-  - component: {fileID: 312962273}
   m_Layer: 0
   m_Name: HealPotion
   m_TagString: Untagged
@@ -4397,18 +4380,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &312962273
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 312962272}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 371622b77e795914ba9564ec3d70a6cc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!212 &312962274
 SpriteRenderer:
   m_ObjectHideFlags: 0

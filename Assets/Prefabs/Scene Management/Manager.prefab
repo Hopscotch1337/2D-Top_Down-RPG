@@ -245,6 +245,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1499671660287102578}
   - component: {fileID: 3843370228258428228}
+  - component: {fileID: 4346404765408846986}
   m_Layer: 0
   m_Name: InventoryManager
   m_TagString: Untagged
@@ -285,8 +286,31 @@ MonoBehaviour:
   hotbarItems: []
   startingInventory:
   - {fileID: 11400000, guid: 95e41e25a0f100d47aaf2514c8bdadc4, type: 2}
+  - {fileID: 11400000, guid: 762bce1e757655b4fa8df68b2b50ac4d, type: 2}
+  - {fileID: 11400000, guid: 762bce1e757655b4fa8df68b2b50ac4d, type: 2}
+  - {fileID: 11400000, guid: 762bce1e757655b4fa8df68b2b50ac4d, type: 2}
   startingHotbar:
   - {fileID: 11400000, guid: 3cbfd236f71b0c447b589f826e8cbd3b, type: 2}
+  - {fileID: 11400000, guid: 762bce1e757655b4fa8df68b2b50ac4d, type: 2}
+  - {fileID: 11400000, guid: 762bce1e757655b4fa8df68b2b50ac4d, type: 2}
+  - {fileID: 11400000, guid: 762bce1e757655b4fa8df68b2b50ac4d, type: 2}
+  - {fileID: 11400000, guid: 762bce1e757655b4fa8df68b2b50ac4d, type: 2}
+  - {fileID: 11400000, guid: 762bce1e757655b4fa8df68b2b50ac4d, type: 2}
+  - {fileID: 11400000, guid: 762bce1e757655b4fa8df68b2b50ac4d, type: 2}
+  - {fileID: 11400000, guid: 762bce1e757655b4fa8df68b2b50ac4d, type: 2}
+  - {fileID: 11400000, guid: 762bce1e757655b4fa8df68b2b50ac4d, type: 2}
+--- !u!114 &4346404765408846986
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7793128496712726746}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 371622b77e795914ba9564ec3d70a6cc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &7840447206309692786
 GameObject:
   m_ObjectHideFlags: 0

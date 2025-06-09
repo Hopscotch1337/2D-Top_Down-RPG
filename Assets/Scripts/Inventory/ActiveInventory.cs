@@ -6,7 +6,6 @@ using Unity.Mathematics;
 public class ActiveInventory : Singelton<ActiveInventory>
 {
     public InventorySlot[] hotbarSlots; // Inspector: deine 5 Slots
-
     private PlayerControls controls;
     public int ActiveInventoryIndex { get; private set; } = 0;
 
@@ -85,7 +84,7 @@ public class ActiveInventory : Singelton<ActiveInventory>
 
         if (entry.itemInfo is PotionInfo pInfo)
         {
-            PlayerHealth.Instance.HealPlayer(pInfo.healAmount);
+            PotionManager.Instance.UsePotion(pInfo);
             InventoryManager.Instance.RemoveFromList(SlotType.Hotbar, ActiveInventoryIndex, 1);
             RefreshSlot(ActiveInventoryIndex);
         }

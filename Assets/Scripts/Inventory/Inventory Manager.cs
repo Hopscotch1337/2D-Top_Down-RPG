@@ -12,8 +12,9 @@ public class InventoryManager : Singelton<InventoryManager>
     [Header("Anzahl Hotbar-Slots")]
     public int hotbarSlotCount = 5;
 
-    [HideInInspector] public List<InventoryItem> inventoryItems;
-    [HideInInspector] public List<InventoryItem> hotbarItems;
+    [Header("Später wieder im Script verstecken!!!")]
+    public List<InventoryItem> inventoryItems;
+    public List<InventoryItem> hotbarItems;
 
     [Header("Start-Items fürs Inventar")]
     public ItemInfo[] startingInventory;
@@ -125,9 +126,37 @@ public class InventoryManager : Singelton<InventoryManager>
         var listA = aType == SlotType.Inventory ? inventoryItems : hotbarItems;
         var listB = bType == SlotType.Inventory ? inventoryItems : hotbarItems;
 
-        var tmp = listA[aIndex];
-        listA[aIndex] = listB[bIndex];
-        listB[bIndex] = tmp;
+        var slotA = listA[aIndex];
+        var slotB = listB[bIndex];
+
+        // 1. Nur mergen, wenn beide Slots belegt sind, das gleiche Item und stackable:
+        if (slotA != null && slotB != null && slotA.itemInfo == slotB.itemInfo && slotA.itemInfo.isStackable)
+        {
+            int combined = slotA.quantity + slotB.quantity;
+            int maxStack = slotA.itemInfo.maxStack;
+
+            if (combined <= maxStack)
+            {
+                // Alles passt in Slot B, A wird leer
+                slotA.quantity = combined;
+                slotB.itemInfo = null;
+                slotB.quantity = 0;
+            }
+            else
+            {
+                // Slot B voll, verbleibender Rest in A
+                slotA.quantity = maxStack;
+                slotB.quantity = combined - maxStack;
+            }
+            
+        }
+        else
+        {
+            // Normales Swappen, wenn nicht mergen
+            var tmp = listA[aIndex];
+            listA[aIndex] = listB[bIndex];
+            listB[bIndex] = tmp;
+        }
 
         // UIs updaten
         if (aType == SlotType.Inventory) InventoryUI.Instance.UpdateSlot(aIndex);
@@ -136,7 +165,7 @@ public class InventoryManager : Singelton<InventoryManager>
         if (bType == SlotType.Inventory) InventoryUI.Instance.UpdateSlot(bIndex);
         else ActiveInventory.Instance.RefreshSlot(bIndex);
 
-            // Nur wenn einer der getauschten Slots aktuell aktiv ist:
+        // Nur wenn einer der getauschten Slots aktuell die aktive Hotbar ist:
         int active = ActiveInventory.Instance.ActiveInventoryIndex;
         if ((aType == SlotType.Hotbar && aIndex == active) ||(bType == SlotType.Hotbar && bIndex == active))
         {
