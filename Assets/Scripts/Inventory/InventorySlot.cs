@@ -120,17 +120,20 @@ public class InventorySlot : MonoBehaviour,
 
 
 
-    // #region Tooltip
-    // public void OnPointerEnter(PointerEventData evt)
-    // {
-    //     var entry = slotType == SlotType.Inventory
-    //         ? InventoryManager.Instance.inventoryItems[slotIndex]
-    //         : InventoryManager.Instance.hotbarItems[slotIndex];
+    #region Toggle Tooltip
+    public void OnPointerEnter(PointerEventData evt)
+    {
+        var entry = slotType == SlotType.Inventory
+            ? InventoryManager.Instance.inventoryItems[slotIndex]
+            : InventoryManager.Instance.hotbarItems[slotIndex];
 
-    //     if (entry != null)
-    //         Tooltip.Instance.Show(entry.itemInfo, entry.quantity);
-    // }
+        if (entry != null && entry.quantity > 1)
+            ToggleTooltip.Instance.EnableTooltip("", entry.itemInfo.itemName + " x " + entry.quantity);
+        else if(entry != null){
+            ToggleTooltip.Instance.EnableTooltip("", entry.itemInfo.itemName);
+        }
+    }
 
-    // public void OnPointerExit(PointerEventData evt) => Tooltip.Instance.Hide();
-    // #endregion
+    public void OnPointerExit(PointerEventData evt) => ToggleTooltip.Instance.DisableTooltip();
+    #endregion
 }

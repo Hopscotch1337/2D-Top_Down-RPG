@@ -13,7 +13,7 @@ public class Stamina : Singelton<Stamina>
 
     private Transform staminaContainer;
     const string STAMINA_BAR = "StaminaContainer";
-    public int currentStamina;
+    [HideInInspector] public int currentStamina;
 
     protected override void Awake()
     {

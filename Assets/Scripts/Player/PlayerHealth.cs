@@ -15,10 +15,10 @@ public class PlayerHealth : Singelton<PlayerHealth>
     private KnockBack knockBack;
     private SpriteFlash spriteFlash;
     private int currentHealth;
-    private bool canTakeDamage = true;
     const string HEALTH_SLIDER = "HealthSlider";
     readonly int DEATH_HASH = Animator.StringToHash("Death");
     private Animator myAnimator;
+    [HideInInspector]public bool canTakeDamage = true;
     
 
     protected override void Awake()

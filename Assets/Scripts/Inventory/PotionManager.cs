@@ -11,6 +11,7 @@ public class PotionManager : Singelton<PotionManager>
     /// Wird aufgerufen, wenn der Spieler einen Trank benutzt.
     /// </summary>
     /// 
+    [HideInInspector] public bool staminaBuffIsActive = false;
      
     public void UsePotion(PotionInfo potion)
     {
@@ -22,8 +23,15 @@ public class PotionManager : Singelton<PotionManager>
                     PlayerHealth.Instance.HealPlayer((int)effect.magnitude);
                     break;
                 case PotionEffectType.MoveSpeed:
+                    StartCoroutine(ApplyBuff(effect));
+                    break;
                 case PotionEffectType.DamageIncrease:
+                    StartCoroutine(ApplyBuff(effect));
+                    break;
                 case PotionEffectType.Stamina:
+                    StartCoroutine(ApplyBuff(effect));
+                    break;
+                case PotionEffectType.Invulnerable:
                     StartCoroutine(ApplyBuff(effect));
                     break;
             }
@@ -38,17 +46,18 @@ public class PotionManager : Singelton<PotionManager>
         switch (effect.effectType)
         {
             case PotionEffectType.MoveSpeed:
-                // playerStats.MoveSpeed += effect.magnitude;
-                Debug.Log($"Speed +{effect.magnitude} for {effect.duration}s");
+                PlayerController.Instance.IncreaseMovespeed(effect.magnitude);
                 break;
             case PotionEffectType.DamageIncrease:
                 // playerStats.DamageMultiplier += effect.magnitude;
                 Debug.Log($"Damage +{effect.magnitude} for {effect.duration}s");
                 break;
-            // case PotionEffectType.Stamina:
-            //     playerStats.StaminaRegen += effect.magnitude;
-            //     Debug.Log($"Stamina Regen +{effect.magnitude} for {effect.duration}s");
-            //     break;
+            case PotionEffectType.Invulnerable:
+                PlayerHealth.Instance.canTakeDamage = false;
+                break;
+            case PotionEffectType.Stamina:
+                staminaBuffIsActive = true;
+                break;
         }
 
         // Warte Buff-Dauer
@@ -58,14 +67,17 @@ public class PotionManager : Singelton<PotionManager>
         switch (effect.effectType)
         {
             case PotionEffectType.MoveSpeed:
-                // playerStats.MoveSpeed -= effect.magnitude;
+                PlayerController.Instance.SetDefaultMovespeed();
                 break;
             case PotionEffectType.DamageIncrease:
                 // playerStats.DamageMultiplier -= effect.magnitude;
                 break;
-            // case PotionEffectType.Stamina:
-            //     playerStats.StaminaRegen -= effect.magnitude;
-            //     break;
+            case PotionEffectType.Invulnerable:
+                PlayerHealth.Instance.canTakeDamage = true;
+                break;
+            case PotionEffectType.Stamina:
+                staminaBuffIsActive = false;
+                break;
         }
         Debug.Log($"{effect.effectType} buff ended.");
     }

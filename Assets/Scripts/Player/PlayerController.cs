@@ -16,7 +16,7 @@ public class PlayerController : Singelton<PlayerController>
     [SerializeField] private Transform slashAnimationSpawnPoint;
 
     private PlayerControls playerControls;
-    private Vector2 movement;
+    private Vector2 playerMovement;
     private Rigidbody2D rb;
     private Animator myAnimator;
     private SpriteRenderer mySpriteRenderer;
@@ -63,28 +63,30 @@ public class PlayerController : Singelton<PlayerController>
         Move();
         AdjustPlayerFacingDirection();
     }
-    public Transform GetWeaponcollider(){
-        return weaponcollider; 
+    public Transform GetWeaponcollider()
+    {
+        return weaponcollider;
     }
-    public Transform GetSlashAnimationSpawnPoint(){
-        return slashAnimationSpawnPoint; 
+    public Transform GetSlashAnimationSpawnPoint()
+    {
+        return slashAnimationSpawnPoint;
     }
-    
+
 
     private void PlayerInput()
     {
-        movement = playerControls.Movement.Move.ReadValue<Vector2>();
-        myAnimator.SetFloat("moveX", movement.x);
-        myAnimator.SetFloat("moveY", movement.y);
+        playerMovement = playerControls.Movement.Move.ReadValue<Vector2>();
+        myAnimator.SetFloat("moveX", playerMovement.x);
+        myAnimator.SetFloat("moveY", playerMovement.y);
     }
 
     private void Move()
     {
-        if ( knockBack.GettingKnockedBack || PlayerHealth.Instance.IsDead) 
+        if (knockBack.GettingKnockedBack || PlayerHealth.Instance.IsDead)
         {
             return; // Prevent player movement while knocked back
         }
-        rb.MovePosition(rb.position + movement * (moveSpeed * Time.fixedDeltaTime));
+        rb.MovePosition(rb.position + playerMovement * (moveSpeed * Time.fixedDeltaTime));
     }
 
     private void AdjustPlayerFacingDirection()
@@ -105,15 +107,17 @@ public class PlayerController : Singelton<PlayerController>
 
     }
 
-    private void Dash(){
+    private void Dash()
+    {
         if (!isDashing && Stamina.Instance.currentStamina > 0)
         {
             StartCoroutine(DashRoutine());
-            Stamina.Instance.UseStamina();
+            if(!PotionManager.Instance.staminaBuffIsActive) Stamina.Instance.UseStamina();
         }
     }
 
-    private IEnumerator DashRoutine() {
+    private IEnumerator DashRoutine()
+    {
         playerTrailRenderer.emitting = true;
         isDashing = true;
         moveSpeed *= dashSpeed;
@@ -122,6 +126,15 @@ public class PlayerController : Singelton<PlayerController>
         playerTrailRenderer.emitting = false;
         yield return new WaitForSeconds(dashCooldown);
         isDashing = false;
+    }
+    public void IncreaseMovespeed(float magnitude)
+    {
+        moveSpeed *= magnitude;
+    }
+    public void SetDefaultMovespeed()
+    {
+        moveSpeed = startingMoveSpeed;
+
     }
     // private void Jump()
     // {

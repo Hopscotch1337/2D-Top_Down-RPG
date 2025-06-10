@@ -7,7 +7,9 @@ public enum PotionEffectType
     Heal,
     MoveSpeed,
     DamageIncrease,
-    Stamina
+    Stamina,
+    Invulnerable
+
 }
 
 [System.Serializable]

@@ -287,6 +287,10 @@ MonoBehaviour:
   startingInventory:
   - {fileID: 11400000, guid: 95e41e25a0f100d47aaf2514c8bdadc4, type: 2}
   - {fileID: 11400000, guid: 762bce1e757655b4fa8df68b2b50ac4d, type: 2}
+  - {fileID: 11400000, guid: e7ec9913c1fe4de4c99adf2b8262c256, type: 2}
+  - {fileID: 11400000, guid: 51ec8d04ef3c3f3458b92ac5f90465a4, type: 2}
+  - {fileID: 11400000, guid: 2dd2bbcd964ee2e4b90b9cde3ccdafe8, type: 2}
+  - {fileID: 11400000, guid: 762bce1e757655b4fa8df68b2b50ac4d, type: 2}
   - {fileID: 11400000, guid: 762bce1e757655b4fa8df68b2b50ac4d, type: 2}
   - {fileID: 11400000, guid: 762bce1e757655b4fa8df68b2b50ac4d, type: 2}
   startingHotbar:
@@ -311,6 +315,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 371622b77e795914ba9564ec3d70a6cc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  staminaBuffIsActive: 0
 --- !u!1 &7840447206309692786
 GameObject:
   m_ObjectHideFlags: 0
