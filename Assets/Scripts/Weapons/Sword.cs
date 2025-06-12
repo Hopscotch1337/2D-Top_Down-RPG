@@ -45,7 +45,6 @@ public WeaponInfo GetWeaponInfo()
 
     private void DoneAttackingAnimationEvent()
     {
-
         weaponCollider.gameObject.SetActive(false);
     }
 

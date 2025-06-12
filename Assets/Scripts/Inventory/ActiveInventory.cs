@@ -5,13 +5,13 @@ using Unity.Mathematics;
 
 public class ActiveInventory : Singelton<ActiveInventory>
 {
-    public InventorySlot[] hotbarSlots; // Inspector: deine 5 Slots
+    public InventorySlot[] hotbarSlots; // Inspector:  5 Slots
     private PlayerControls controls;
     public int ActiveInventoryIndex { get; private set; } = 0;
 
     protected override void Awake()
     {
-        base.Awake(); // Call the base class Awake method
+        base.Awake();
         
         controls = new PlayerControls();
     }
@@ -50,13 +50,10 @@ public class ActiveInventory : Singelton<ActiveInventory>
         // Equip-Logik
         EquipWeapon();
 
-        // synchronisieren mit Inventar-Popup (optional)
-        // InventoryUI.Instance.Highlight(activeIndex);
     }
 
     private void EquipWeapon()
     {
-        Debug.Log("equip weapon wurde ausgeführt");
         if (PlayerHealth.Instance.IsDead) return;
 
         if (ActiveWeapon.Instance.CurrentActiveWeapon != null) Destroy(ActiveWeapon.Instance.CurrentActiveWeapon.gameObject);
@@ -72,7 +69,6 @@ public class ActiveInventory : Singelton<ActiveInventory>
         }
         else
         {
-            Debug.Log("keine waffe");
             ActiveWeapon.Instance.WeaponNull();
         }
     }
@@ -90,7 +86,7 @@ public class ActiveInventory : Singelton<ActiveInventory>
         }
     }
 
-    private void ToggleInventory()
+    public void ToggleInventory()
     {
         if (InventoryUI.Instance.gameObject.activeSelf)
         {

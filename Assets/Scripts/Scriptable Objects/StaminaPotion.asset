@@ -17,6 +17,7 @@ MonoBehaviour:
   itemType: 1
   isStackable: 1
   maxStack: 9
+  itemValue: 20
   effects:
   - effectType: 3
     magnitude: 1

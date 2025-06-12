@@ -114,7 +114,7 @@ public class InventoryManager : Singelton<InventoryManager>
         slot.quantity -= amount;
         if (slot.quantity <= 0) list[index] = null;
         onChanged(index);
-        
+
         // Nur wenn Hotbar betroffen und es der aktive Slot war:
         if (type == SlotType.Hotbar && index == ActiveInventory.Instance.ActiveInventoryIndex)
             ActiveInventory.Instance.RefreshActiveSlot();
@@ -148,7 +148,7 @@ public class InventoryManager : Singelton<InventoryManager>
                 slotA.quantity = maxStack;
                 slotB.quantity = combined - maxStack;
             }
-            
+
         }
         else
         {
@@ -167,11 +167,53 @@ public class InventoryManager : Singelton<InventoryManager>
 
         // Nur wenn einer der getauschten Slots aktuell die aktive Hotbar ist:
         int active = ActiveInventory.Instance.ActiveInventoryIndex;
-        if ((aType == SlotType.Hotbar && aIndex == active) ||(bType == SlotType.Hotbar && bIndex == active))
+        if ((aType == SlotType.Hotbar && aIndex == active) || (bType == SlotType.Hotbar && bIndex == active))
         {
             ActiveInventory.Instance.RefreshActiveSlot();
         }
     }
+    public bool PlaceItemAt(int slot, ItemInfo info, int amount = 1) //wird später evt. wieder benötigt für Frei und nichtfrei checks
+    {
+        if (slot < 0 || slot >= inventoryItems.Count)
+            return false;
+
+        if (inventoryItems[slot] != null)
+            return false; // schon belegt
+
+        inventoryItems[slot] = new InventoryItem(info, amount);
+        return true;
+    }
+    
+    public bool PlaceOrStackAt(int slotIndex, ItemInfo info, int amount = 1)
+{
+    // 1) Index-Check
+    if (slotIndex < 0 || slotIndex >= inventoryItems.Count)
+        return false;
+
+    var slot = inventoryItems[slotIndex];
+
+    // 2) Slot leer → normalen Place
+    if (slot == null)
+    {
+        int toPlace = info.isStackable
+            ? Mathf.Min(amount, info.maxStack)
+            : 1;
+        inventoryItems[slotIndex] = new InventoryItem(info, toPlace);
+        return true;
+    }
+
+    // 3) Slot belegt, prüfen auf Stackbarkeit
+    if (info.isStackable && slot.itemInfo == info && slot.quantity < info.maxStack)
+    {
+        int space = info.maxStack - slot.quantity;
+        int toAdd = Mathf.Min(amount, space);
+        slot.quantity += toAdd;
+        return true;
+    }
+
+    // 4) Nichts ging → false
+    return false;
+}
     
 
 }

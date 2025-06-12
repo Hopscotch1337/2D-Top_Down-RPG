@@ -5,15 +5,15 @@ using TMPro;
 
 [RequireComponent(typeof(CanvasGroup))]
 public class InventorySlot : MonoBehaviour,
-    IBeginDragHandler, IDragHandler, IEndDragHandler, IDropHandler
+    IBeginDragHandler, IDragHandler, IEndDragHandler, IDropHandler, IPointerEnterHandler, IPointerExitHandler
 {
     public SlotType slotType;   // Inspector: Inventory oder Hotbar
     public int      slotIndex;  // Inspector: Index in der jeweiligen Liste
 
     [Header("UI-Referenzen")]
-    public Image     iconImage;
-    public GameObject highlightBorder;
-    public TMP_Text quantityText;
+    [SerializeField] private Image     iconImage;
+    [SerializeField] private GameObject highlightBorder;
+    [SerializeField] private TMP_Text quantityText;
 
     private CanvasGroup canvasGroup;
     private Canvas      rootCanvas;
@@ -101,20 +101,30 @@ public class InventorySlot : MonoBehaviour,
     {
         // wieder blocken und Drag-Icon entfernen
         canvasGroup.blocksRaycasts = true;
-        if (dragIcon != null)
-            Destroy(dragIcon);
+        if (dragIcon != null)Destroy(dragIcon);
+
     }
 
     public void OnDrop(PointerEventData evt)
     {
-        // swappe nur über die Manager-Logik
-        var other = evt.pointerDrag?.GetComponent<InventorySlot>();
-        if (other == null) return;
+        var shopSlot = evt.pointerDrag?.GetComponent<ShopSlot>();
+        Debug.Log($"OnDrop auf Slot #{slotIndex} vom Typ {slotType}");
 
-        InventoryManager.Instance.SwapSlots(
-            slotType,      slotIndex,
-            other.slotType, other.slotIndex
-        );
+
+        if (shopSlot != null && slotType == SlotType.Inventory)
+        {
+            // hier kaufen, also nichts tun
+            ShopUI.Instance.BuyItem(shopSlot.itemInfo, slotIndex);
+            shopSlot.CleanupDragIcon();
+            return;
+        }
+        var other = evt.pointerDrag?.GetComponent<InventorySlot>();
+        if (other != null)
+        {
+            // Swap Slots
+            InventoryManager.Instance.SwapSlots(slotType, slotIndex, other.slotType, other.slotIndex);
+            return;
+        }
     }
     #endregion
 
@@ -129,7 +139,8 @@ public class InventorySlot : MonoBehaviour,
 
         if (entry != null && entry.quantity > 1)
             ToggleTooltip.Instance.EnableTooltip("", entry.itemInfo.itemName + " x " + entry.quantity);
-        else if(entry != null){
+        else if (entry != null && entry.quantity == 1)
+        {
             ToggleTooltip.Instance.EnableTooltip("", entry.itemInfo.itemName);
         }
     }

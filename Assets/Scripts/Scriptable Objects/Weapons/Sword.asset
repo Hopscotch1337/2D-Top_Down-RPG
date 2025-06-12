@@ -17,6 +17,7 @@ MonoBehaviour:
   itemType: 0
   isStackable: 0
   maxStack: 1
+  itemValue: 10
   weaponPrefab: {fileID: 8299483852058082899, guid: 7c469baf1c04ec847b0573bf78f37459, type: 3}
   attackCooldown: 0.5
   weaponDamage: 1
