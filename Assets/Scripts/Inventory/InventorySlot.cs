@@ -1,18 +1,19 @@
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
+using TMPro;
 
 [RequireComponent(typeof(CanvasGroup))]
 public class InventorySlot : MonoBehaviour,
-    IBeginDragHandler, IDragHandler, IEndDragHandler, IDropHandler
+    IBeginDragHandler, IDragHandler, IEndDragHandler, IDropHandler, IPointerEnterHandler, IPointerExitHandler
 {
     public SlotType slotType;   // Inspector: Inventory oder Hotbar
     public int      slotIndex;  // Inspector: Index in der jeweiligen Liste
 
     [Header("UI-Referenzen")]
-    public Image     iconImage;
-    public GameObject highlightBorder;
-    // (optional) public Text quantityText;
+    [SerializeField] private Image     iconImage;
+    [SerializeField] private GameObject highlightBorder;
+    [SerializeField] private TMP_Text quantityText;
 
     private CanvasGroup canvasGroup;
     private Canvas      rootCanvas;
@@ -49,15 +50,14 @@ public class InventorySlot : MonoBehaviour,
         {
             iconImage.enabled = false;
             iconImage.sprite  = null;
+            quantityText.text = "";
             return;
         }
 
         // 5) Ansonsten Icon setzen
         iconImage.enabled = true;
         iconImage.sprite  = entry.itemInfo.icon;
-        // quantityText.text = entry.itemInfo.isStackable
-        //     ? entry.quantity.ToString()
-        //     : "";
+        quantityText.text = entry.itemInfo.isStackable ? "x" + entry.quantity.ToString(): "";
     }
 
     public void SetHighlight(bool on)
@@ -101,36 +101,50 @@ public class InventorySlot : MonoBehaviour,
     {
         // wieder blocken und Drag-Icon entfernen
         canvasGroup.blocksRaycasts = true;
-        if (dragIcon != null)
-            Destroy(dragIcon);
+        if (dragIcon != null)Destroy(dragIcon);
+
     }
 
     public void OnDrop(PointerEventData evt)
     {
-        // swappe nur über die Manager-Logik
-        var other = evt.pointerDrag?.GetComponent<InventorySlot>();
-        if (other == null) return;
+        var shopSlot = evt.pointerDrag?.GetComponent<ShopSlot>();
+        Debug.Log($"OnDrop auf Slot #{slotIndex} vom Typ {slotType}");
 
-        InventoryManager.Instance.SwapSlots(
-            slotType,      slotIndex,
-            other.slotType, other.slotIndex
-        );
+
+        if (shopSlot != null && slotType == SlotType.Inventory)
+        {
+            // hier kaufen, also nichts tun
+            ShopUI.Instance.BuyItem(shopSlot.itemInfo, slotIndex);
+            shopSlot.CleanupDragIcon();
+            return;
+        }
+        var other = evt.pointerDrag?.GetComponent<InventorySlot>();
+        if (other != null)
+        {
+            // Swap Slots
+            InventoryManager.Instance.SwapSlots(slotType, slotIndex, other.slotType, other.slotIndex);
+            return;
+        }
     }
     #endregion
 
 
 
-    // #region Tooltip
-    // public void OnPointerEnter(PointerEventData evt)
-    // {
-    //     var entry = slotType == SlotType.Inventory
-    //         ? InventoryManager.Instance.inventoryItems[slotIndex]
-    //         : InventoryManager.Instance.hotbarItems[slotIndex];
+    #region Toggle Tooltip
+    public void OnPointerEnter(PointerEventData evt)
+    {
+        var entry = slotType == SlotType.Inventory
+            ? InventoryManager.Instance.inventoryItems[slotIndex]
+            : InventoryManager.Instance.hotbarItems[slotIndex];
 
-    //     if (entry != null)
-    //         Tooltip.Instance.Show(entry.itemInfo, entry.quantity);
-    // }
+        if (entry != null && entry.quantity > 1)
+            ToggleTooltip.Instance.EnableTooltip("", entry.itemInfo.itemName + " x " + entry.quantity);
+        else if (entry != null && entry.quantity == 1)
+        {
+            ToggleTooltip.Instance.EnableTooltip("", entry.itemInfo.itemName);
+        }
+    }
 
-    // public void OnPointerExit(PointerEventData evt) => Tooltip.Instance.Hide();
-    // #endregion
+    public void OnPointerExit(PointerEventData evt) => ToggleTooltip.Instance.DisableTooltip();
+    #endregion
 }

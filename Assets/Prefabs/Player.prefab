@@ -674,6 +674,7 @@ MonoBehaviour:
   maxHealth: 3
   knockBackTrust: 10
   damageRecoveryTime: 1
+  canTakeDamage: 1
 --- !u!114 &4141195817028446894
 MonoBehaviour:
   m_ObjectHideFlags: 0

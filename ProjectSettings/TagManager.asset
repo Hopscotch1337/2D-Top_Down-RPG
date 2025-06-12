@@ -11,8 +11,8 @@ TagManager:
   - Cinemachine Confiner
   - Water
   - UI
-  - Spieler
-  - 
+  - Player
+  - Vendor
   - 
   - 
   - 
@@ -40,4 +40,7 @@ TagManager:
   m_SortingLayers:
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: Sign_House
+    uniqueID: 2786150939
     locked: 0

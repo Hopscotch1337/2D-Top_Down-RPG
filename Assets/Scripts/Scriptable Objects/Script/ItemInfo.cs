@@ -15,4 +15,5 @@ public abstract class ItemInfo : ScriptableObject
     public ItemType itemType;
     public bool isStackable;
     public int maxStack = 1;
+    public int itemValue;
 }

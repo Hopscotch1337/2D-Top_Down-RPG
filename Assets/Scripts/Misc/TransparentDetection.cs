@@ -1,80 +1,92 @@
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
+[RequireComponent(typeof(Collider2D))]
 public class TransparentDetection : MonoBehaviour
 {
-    [Range(0, 1)]
-    [SerializeField] private float transparencyAmount = 0.8f;
-
+    [Header("Transparency Settings")]
+    [Range(0,1)] [SerializeField] private float transparencyAmount = 0.8f;
     [SerializeField] private float fadeTime = 0.5f;
 
+    [Header("Extras")]
+    [Tooltip("Soll die Transparenz-Einstellung auch auf alle Child-SpriteRenderers und Tilemaps angewendet werden?")]
+    [SerializeField] private bool includeChildren = false;
+
     private SpriteRenderer spriteRenderer;
-    private Tilemap tilemap;
+    private Tilemap       tilemap;
 
     private void Awake()
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
-        tilemap = GetComponent<Tilemap>();
+        tilemap        = GetComponent<Tilemap>();
     }
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.gameObject.GetComponent<PlayerController>())
-        {
-            if (spriteRenderer)
-            {
-                StartCoroutine(FadeRoutine(spriteRenderer, fadeTime, spriteRenderer.color.a, transparencyAmount));
-            }
-            else if (tilemap)
-            {
-                StartCoroutine(FadeRoutine(tilemap, fadeTime, tilemap.color.a, transparencyAmount));
-            }
-        }
+        if (other.GetComponent<PlayerController>() == null) return;
+        // Ziel-Alpha setzen
+        float target = transparencyAmount;
+        // Fade starten für alle relevanten Renderer
+        StartFade(target);
     }
+
     private void OnTriggerExit2D(Collider2D other)
     {
-        if (!enabled || !gameObject.activeInHierarchy) { return; }
-        if (other.gameObject.GetComponent<PlayerController>())
+        if (other.GetComponent<PlayerController>() == null) return;
+        // Ziel-Alpha wieder 1
+        StartFade(1f);
+    }
+
+    private void StartFade(float targetAlpha)
+    {
+        // SpriteRenderer(s)
+        if (includeChildren)
         {
-            if (spriteRenderer)
-            {
-                StartCoroutine(FadeRoutine(spriteRenderer, fadeTime, spriteRenderer.color.a, 1f));
-            }
-            else if (tilemap)
-            {
-                StartCoroutine(FadeRoutine(tilemap, fadeTime, tilemap.color.a, 1f));
-            }
+            foreach (var sr in GetComponentsInChildren<SpriteRenderer>())
+                StartCoroutine(FadeRoutine(sr, fadeTime, sr.color.a, targetAlpha));
+        }
+        else if (spriteRenderer != null)
+        {
+            StartCoroutine(FadeRoutine(spriteRenderer, fadeTime, spriteRenderer.color.a, targetAlpha));
+        }
+
+        // Tilemap(s)
+        if (includeChildren)
+        {
+            foreach (var tm in GetComponentsInChildren<Tilemap>())
+                StartCoroutine(FadeRoutine(tm, fadeTime, tm.color.a, targetAlpha));
+        }
+        else if (tilemap != null)
+        {
+            StartCoroutine(FadeRoutine(tilemap, fadeTime, tilemap.color.a, targetAlpha));
         }
     }
 
-
-    private IEnumerator FadeRoutine(SpriteRenderer spriteRenderer, float fadeTime, float startValue, float targetTransparency)
+    private IEnumerator FadeRoutine(SpriteRenderer sr, float duration, float start, float end)
     {
-        float elapsedTime = 0f;
-        while (elapsedTime < fadeTime)
+        float elapsed = 0f;
+        while (elapsed < duration)
         {
-            elapsedTime += Time.deltaTime;
-            float newAlpha = Mathf.Lerp(startValue, targetTransparency, elapsedTime / fadeTime);
-            spriteRenderer.color = new Color(spriteRenderer.color.r, spriteRenderer.color.g, spriteRenderer.color.b, newAlpha);
+            elapsed += Time.deltaTime;
+            float a = Mathf.Lerp(start, end, elapsed / duration);
+            var c = sr.color; c.a = a;
+            sr.color = c;
             yield return null;
         }
     }
-    private IEnumerator FadeRoutine(Tilemap tilemap, float fadeTime, float startValue, float targetTransparency)
+
+    private IEnumerator FadeRoutine(Tilemap tm, float duration, float start, float end)
     {
-        float elapsedTime = 0f;
-        while (elapsedTime < fadeTime)
+        float elapsed = 0f;
+        while (elapsed < duration)
         {
-            elapsedTime += Time.deltaTime;
-            float newAlpha = Mathf.Lerp(startValue, targetTransparency, elapsedTime / fadeTime);
-            tilemap.color = new Color(tilemap.color.r, tilemap.color.g, tilemap.color.b, newAlpha);
+            elapsed += Time.deltaTime;
+            float a = Mathf.Lerp(start, end, elapsed / duration);
+            var c = tm.color; c.a = a;
+            tm.color = c;
             yield return null;
         }
     }
-       
-
-
-
 }
