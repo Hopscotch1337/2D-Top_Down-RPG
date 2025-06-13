@@ -20,6 +20,7 @@ public class ShopUI : Singelton<ShopUI>
         currentVendor = vendor;
         window.SetActive(true);
         RefreshShop();
+        shopItemsHeader.text = currentVendor.shopName;
         // Only open inventory if it's currently closed
         if (!InventoryUI.Instance.gameObject.activeSelf)
         {
