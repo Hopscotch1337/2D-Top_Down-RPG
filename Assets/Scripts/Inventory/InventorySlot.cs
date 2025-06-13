@@ -5,7 +5,7 @@ using TMPro;
 
 [RequireComponent(typeof(CanvasGroup))]
 public class InventorySlot : MonoBehaviour,
-    IBeginDragHandler, IDragHandler, IEndDragHandler, IDropHandler, IPointerEnterHandler, IPointerExitHandler
+    IBeginDragHandler, IDragHandler, IEndDragHandler, IDropHandler, IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler
 {
     public SlotType slotType;   // Inspector: Inventory oder Hotbar
     public int      slotIndex;  // Inspector: Index in der jeweiligen Liste
@@ -64,6 +64,30 @@ public class InventorySlot : MonoBehaviour,
     {
         if (highlightBorder != null)
             highlightBorder.SetActive(on);
+    }
+
+    /// <summary>
+    /// Doppelklick zum Verkaufen (wenn Shop geöffnet ist)
+    /// </summary>
+    public void OnPointerClick(PointerEventData eventData)
+    {
+        if (eventData.clickCount == 2)
+        {
+            // Prüfen ob Shop geöffnet ist
+            if (ShopUI.Instance != null && ShopUI.Instance.window.activeSelf)
+            {
+                // Prüfen ob Item in diesem Slot vorhanden ist
+                var list = slotType == SlotType.Inventory
+                    ? InventoryManager.Instance.inventoryItems
+                    : InventoryManager.Instance.hotbarItems;
+
+                if (slotIndex >= 0 && slotIndex < list.Count && list[slotIndex] != null)
+                {
+                    // Doppelklick - Item verkaufen
+                    ShopUI.Instance.SellItem(slotType, slotIndex);
+                }
+            }
+        }
     }
 
     #region Drag & Drop
