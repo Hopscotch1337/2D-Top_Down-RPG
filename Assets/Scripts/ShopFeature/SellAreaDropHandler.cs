@@ -8,10 +8,13 @@ public class SellAreaDropHandler : MonoBehaviour, IDropHandler
     public void OnDrop(PointerEventData eventData)
     {
         var invSlot = eventData.pointerDrag?.GetComponent<InventorySlot>();
-        if (invSlot == null || invSlot.slotType != SlotType.Inventory) return;
+        if (invSlot == null) return;
+        
+        // Allow selling from both inventory and hotbar
+        if (invSlot.slotType != SlotType.Inventory && invSlot.slotType != SlotType.Hotbar) return;
 
         // Verkauf ausführen
-        ShopUI.Instance.SellItem(invSlot.slotIndex);
+        ShopUI.Instance.SellItem(invSlot.slotType, invSlot.slotIndex);
 
     }
 }

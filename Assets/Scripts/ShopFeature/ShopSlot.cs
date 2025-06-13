@@ -3,7 +3,7 @@ using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using TMPro;
 
-public class ShopSlot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
+public class ShopSlot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler, IPointerClickHandler
 {
     [Header("Daten")]
     public ItemInfo itemInfo;
@@ -39,6 +39,18 @@ public class ShopSlot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
 
         priceText.text   = cost.ToString();
         SetQuantity(qty);
+    }
+
+    /// <summary>
+    /// Doppelklick zum Kaufen
+    /// </summary>
+    public void OnPointerClick(PointerEventData eventData)
+    {
+        if (eventData.clickCount == 2 && itemInfo != null)
+        {
+            // Doppelklick - Item kaufen
+            ShopUI.Instance.BuyItem(itemInfo);
+        }
     }
 
     /// <summary>

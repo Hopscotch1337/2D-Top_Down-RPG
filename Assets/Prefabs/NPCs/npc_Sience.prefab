@@ -30,15 +30,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5909133902668823047, guid: 1bcdf8af6a5d07a4cb06bd137da7fea0, type: 3}
       propertyPath: m_RootOrder
-      value: 14
+      value: 12
       objectReference: {fileID: 0}
     - target: {fileID: 5909133902668823047, guid: 1bcdf8af6a5d07a4cb06bd137da7fea0, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 6.39
+      value: -1.586
       objectReference: {fileID: 0}
     - target: {fileID: 5909133902668823047, guid: 1bcdf8af6a5d07a4cb06bd137da7fea0, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -4.6
+      value: 2.465
       objectReference: {fileID: 0}
     - target: {fileID: 5909133902668823047, guid: 1bcdf8af6a5d07a4cb06bd137da7fea0, type: 3}
       propertyPath: m_LocalPosition.z
@@ -103,17 +103,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a5b25c02f6ef9d443840246c3bca735d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  shopName: "Peter\xB4s Potions"
   stock:
   - itemInfo: {fileID: 11400000, guid: 762bce1e757655b4fa8df68b2b50ac4d, type: 2}
     quantity: 9
-  - itemInfo: {fileID: 11400000, guid: 95e41e25a0f100d47aaf2514c8bdadc4, type: 2}
-    quantity: 1
-  - itemInfo: {fileID: 11400000, guid: e610fb788cb7ee4419c0222bdc7fad1f, type: 2}
-    quantity: 1
-  - itemInfo: {fileID: 11400000, guid: e7ec9913c1fe4de4c99adf2b8262c256, type: 2}
-    quantity: 3
   - itemInfo: {fileID: 11400000, guid: 51ec8d04ef3c3f3458b92ac5f90465a4, type: 2}
-    quantity: 2
+    quantity: 5
+  - itemInfo: {fileID: 11400000, guid: e7ec9913c1fe4de4c99adf2b8262c256, type: 2}
+    quantity: 5
+  - itemInfo: {fileID: 11400000, guid: 2dd2bbcd964ee2e4b90b9cde3ccdafe8, type: 2}
+    quantity: 5
 --- !u!114 &8724898019596743310
 MonoBehaviour:
   m_ObjectHideFlags: 0
