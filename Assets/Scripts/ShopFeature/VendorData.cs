@@ -3,6 +3,7 @@ using UnityEngine;
 
 public class VendorData : MonoBehaviour
 {
+    public string shopName;
     [Header("Welcher Bestand (gestapelt) verfügbar ist")]
     public List<VendorItem> stock = new List<VendorItem>();
 
