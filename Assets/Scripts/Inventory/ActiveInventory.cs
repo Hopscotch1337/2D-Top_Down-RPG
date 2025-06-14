@@ -3,7 +3,7 @@ using UnityEngine;
 using Unity.Mathematics;
 
 
-public class HotbarUI : Singelton<HotbarUI>
+public class ActiveInventory : Singelton<ActiveInventory>
 {
     public InventorySlot[] hotbarSlots; // Inspector:  5 Slots
     private PlayerControls controls;
@@ -97,4 +97,5 @@ public class HotbarUI : Singelton<HotbarUI>
             InventoryUI.Instance.gameObject.SetActive(true);
         }
     }
+
 }

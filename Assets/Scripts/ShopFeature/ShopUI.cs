@@ -10,7 +10,6 @@ public class ShopUI : Singelton<ShopUI>
     public Transform  sellArea;
     public ShopSlot shopSlotPrefab;
     public TMP_Text   statusText;
-    public TMP_Text   shopItemsHeader; // Überschrift "Shop-Items"
     [Range(0f,1f)] [SerializeField] private float sellMagnitude = 0.5f;
 
     private VendorData currentVendor;
@@ -20,12 +19,7 @@ public class ShopUI : Singelton<ShopUI>
         currentVendor = vendor;
         window.SetActive(true);
         RefreshShop();
-        shopItemsHeader.text = currentVendor.shopName;
-        // Only open inventory if it's currently closed
-        if (!InventoryUI.Instance.gameObject.activeSelf)
-        {
-            InventoryUI.Instance.gameObject.SetActive(true);
-        }
+        if (ActiveInventory.Instance.gameObject.activeSelf) ActiveInventory.Instance.ToggleInventory();
         statusText.gameObject.SetActive(false);
     }
 
@@ -54,39 +48,22 @@ private void RefreshShop()
     }
 
     // wird von Sell-Drop-Handler gerufen
-    public int SellItem(SlotType slotType, int slotIndex) {
+    public int SellItem(int invIndex) {
         Debug.Log("sell wurde ausgeführt");
-        
-        InventoryItem entry = null;
-        if (slotType == SlotType.Inventory)
-        {
-            entry = InventoryManager.Instance.inventoryItems[slotIndex];
-        }
-        else if (slotType == SlotType.Hotbar)
-        {
-            entry = InventoryManager.Instance.hotbarItems[slotIndex];
-        }
-        
+        var entry = InventoryManager.Instance.inventoryItems[invIndex];
         if (entry == null) return 0;
         int sellPrice = (int)(entry.itemInfo.itemValue * sellMagnitude); 
 
         statusText.text = $"Sold {entry.quantity}  {entry.itemInfo.itemName} for {sellPrice * entry.quantity}G";
         statusText.gameObject.SetActive(true);
 
-        // Add the sold item back to the shop's inventory
-        currentVendor.AddToStock(entry.itemInfo, entry.quantity);
-
         EconomyManager.Instance.UpdateGoldCoins(sellPrice * entry.quantity);
-        InventoryManager.Instance.RemoveFromList(slotType, slotIndex, entry.quantity);
-        
-        // Refresh shop to show the new stock
-        RefreshShop();
-        
+        InventoryManager.Instance.RemoveFromList(SlotType.Inventory, invIndex, entry.quantity);
         return sellPrice;
     }
 
     // wird von ShopSlotUI beim Kauf-Drop auf InventorySlot gerufen
-    public void BuyItem(ItemInfo info, int targetSlot = -1)
+    public void BuyItem(ItemInfo info, int targetSlot)
     {
 
         // 1) Prüfen, ob genug Gold da ist
@@ -102,11 +79,7 @@ private void RefreshShop()
         if (!removed){ return; }
 
         // 3) Versuche, genau in targetSlot zu legen
-        bool ok = false;
-        if (targetSlot >= 0)
-        {
-            ok = InventoryManager.Instance.PlaceOrStackAt(targetSlot, info, 1);
-        }
+        bool ok = InventoryManager.Instance.PlaceOrStackAt(targetSlot, info, 1);
         if (!ok)
         {
             // Fallback: erstes freies Inventar-Feld
@@ -119,7 +92,7 @@ private void RefreshShop()
             EconomyManager.Instance.UpdateGoldCoins(-info.itemValue);
 
             // 5) UI updaten
-            if (targetSlot >= 0) InventoryUI.Instance.UpdateSlot(targetSlot);
+            InventoryUI.Instance.UpdateSlot(targetSlot);
             RefreshShop(); // aktualisiere auch die Anzeige im Shop (Bestand)
 
             statusText.text = $"Bought {info.itemName} for {info.itemValue}G";

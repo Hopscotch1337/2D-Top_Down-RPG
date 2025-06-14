@@ -61,7 +61,7 @@ public class InventoryManager : Singelton<InventoryManager>
             AddToHotbar(info, 1);
 
         InventoryUI.Instance.gameObject.SetActive(false);
-        HotbarUI.Instance.ChangeActiveSlot(0); // 0 is default Sword
+        ActiveInventory.Instance.ChangeActiveSlot(0); // 0 is default Sword
     }
 
     // Fügt im Inventar hinzu
@@ -76,7 +76,7 @@ public class InventoryManager : Singelton<InventoryManager>
     public bool AddToHotbar(ItemInfo info, int amount = 1)
     {
         return AddItemToList(hotbarItems, hotbarSlotCount, info, amount,
-            i => HotbarUI.Instance.RefreshSlot(i));
+            i => ActiveInventory.Instance.RefreshSlot(i));
     }
 
     // Allgemeine Logik für Stapeln/Leeren Slot
@@ -127,7 +127,7 @@ public class InventoryManager : Singelton<InventoryManager>
         var list = type == SlotType.Inventory ? inventoryItems : hotbarItems;
         var onChanged = type == SlotType.Inventory
             ? new System.Action<int>(InventoryUI.Instance.UpdateSlot)
-            : new System.Action<int>(HotbarUI.Instance.RefreshSlot);
+            : new System.Action<int>(ActiveInventory.Instance.RefreshSlot);
 
         var slot = list[index];
         if (slot == null) return;
@@ -136,8 +136,8 @@ public class InventoryManager : Singelton<InventoryManager>
         onChanged(index);
 
         // Nur wenn Hotbar betroffen und es der aktive Slot war:
-        if (type == SlotType.Hotbar && index == HotbarUI.Instance.ActiveInventoryIndex)
-            HotbarUI.Instance.RefreshActiveSlot();
+        if (type == SlotType.Hotbar && index == ActiveInventory.Instance.ActiveInventoryIndex)
+            ActiveInventory.Instance.RefreshActiveSlot();
     }
 
     // Tauscht Slots innerhalb gleicher Liste oder zwischen Inventar/Hotbar
@@ -180,16 +180,16 @@ public class InventoryManager : Singelton<InventoryManager>
 
         // UIs updaten
         if (aType == SlotType.Inventory) InventoryUI.Instance.UpdateSlot(aIndex);
-        else HotbarUI.Instance.RefreshSlot(aIndex);
+        else ActiveInventory.Instance.RefreshSlot(aIndex);
 
         if (bType == SlotType.Inventory) InventoryUI.Instance.UpdateSlot(bIndex);
-        else HotbarUI.Instance.RefreshSlot(bIndex);
+        else ActiveInventory.Instance.RefreshSlot(bIndex);
 
         // Nur wenn einer der getauschten Slots aktuell die aktive Hotbar ist:
-        int active = HotbarUI.Instance.ActiveInventoryIndex;
+        int active = ActiveInventory.Instance.ActiveInventoryIndex;
         if ((aType == SlotType.Hotbar && aIndex == active) || (bType == SlotType.Hotbar && bIndex == active))
         {
-            HotbarUI.Instance.RefreshActiveSlot();
+            ActiveInventory.Instance.RefreshActiveSlot();
         }
     }
     public bool PlaceItemAt(int slot, ItemInfo info, int amount = 1) //wird später evt. wieder benötigt für Frei und nichtfrei checks
