@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public enum SlotType { Inventory, Hotbar }
@@ -12,9 +13,8 @@ public class InventoryManager : Singelton<InventoryManager>
     [Header("Anzahl Hotbar-Slots")]
     public int hotbarSlotCount = 5;
 
-    [Header("Später wieder im Script verstecken!!!")]
-    public List<InventoryItem> inventoryItems;
-    public List<InventoryItem> hotbarItems;
+    [HideInInspector] public List<InventoryItem> inventoryItems;
+    [HideInInspector] public List<InventoryItem> hotbarItems;
 
     [Header("Start-Items fürs Inventar")]
     public ItemInfo[] startingInventory;
@@ -27,17 +27,28 @@ public class InventoryManager : Singelton<InventoryManager>
     protected override void Awake()
     {
         base.Awake(); // Call the base class Awake method
+            // Nur initialisieren, wenn inventoryItems noch nicht angelegt wurde
+            if (inventoryItems == null || inventoryItems.Count != inventorySlotCount)
+            {
+                inventoryItems = new List<InventoryItem>(inventorySlotCount);
+                for (int i = 0; i < inventorySlotCount; i++)
+                    inventoryItems.Add(null);
+            }
 
-        // Inventar initialisieren
-        inventoryItems = new List<InventoryItem>(inventorySlotCount);
-        for (int i = 0; i < inventorySlotCount; i++)
-            inventoryItems.Add(null);
+            // Gleiches für Hotbar
+            if (hotbarItems == null || hotbarItems.Count != hotbarSlotCount)
+            {
+                hotbarItems = new List<InventoryItem>(hotbarSlotCount);
+                for (int i = 0; i < hotbarSlotCount; i++)
+                    hotbarItems.Add(null);
+            }
 
-        // Hotbar initialisieren
-        hotbarItems = new List<InventoryItem>(hotbarSlotCount);
-        for (int i = 0; i < hotbarSlotCount; i++)
-            hotbarItems.Add(null);
     }
+     /// <summary>
+    /// Stellt sicher, dass inventoryItems.Count == inventorySlotCount
+    /// und füllt nötigenfalls mit null auf.
+    /// </summary>
+    
 
     private void Start()
     {
@@ -56,6 +67,7 @@ public class InventoryManager : Singelton<InventoryManager>
     // Fügt im Inventar hinzu
     public bool AddToInventory(ItemInfo info, int amount = 1)
     {
+
         return AddItemToList(inventoryItems, inventorySlotCount, info, amount,
             i => InventoryUI.Instance.UpdateSlot(i));
     }
@@ -70,7 +82,11 @@ public class InventoryManager : Singelton<InventoryManager>
     // Allgemeine Logik für Stapeln/Leeren Slot
     private bool AddItemToList(List<InventoryItem> list, int slotCount, ItemInfo info, int amount, System.Action<int> onSlotChanged)
     {
+        int nullCount = inventoryItems.Count(i => i == null);
+        Debug.Log($"[AddToInventory] Slots: {inventoryItems.Count}, freie: {nullCount}");
         // Stapeln
+
+
         if (info.isStackable)
         {
             for (int i = 0; i < slotCount; i++)
@@ -88,17 +104,21 @@ public class InventoryManager : Singelton<InventoryManager>
             }
         }
 
-        // Leerer Slot
+            // 2) Leerer Slot oder unvollständiger Eintrag?
         while (amount > 0)
         {
-            int free = list.FindIndex(x => x == null);
+            int free = list.FindIndex(x => x == null || x.itemInfo == null);
             if (free < 0) return false;
-            int stack = info.isStackable ? Mathf.Min(amount, info.maxStack) : 1;
+
+            int stack = info.isStackable
+            ? Mathf.Min(amount, info.maxStack)
+            : 1;
+
             list[free] = new InventoryItem(info, stack);
             amount -= stack;
             onSlotChanged(free);
         }
-        return true;
+    return true;
     }
 
     // Entfernt Items
@@ -185,35 +205,36 @@ public class InventoryManager : Singelton<InventoryManager>
     }
     
     public bool PlaceOrStackAt(int slotIndex, ItemInfo info, int amount = 1)
-{
-    // 1) Index-Check
-    if (slotIndex < 0 || slotIndex >= inventoryItems.Count)
+    {
+         Debug.Log($"[PlaceOrStackAt] Slots: {inventoryItems.Count}, TargetSlot: {slotIndex}, FreeSlots: {inventoryItems.Count(i => i==null)}");
+        // 1) Index-Check
+        if (slotIndex < 0 || slotIndex >= inventoryItems.Count)
+            return false;
+
+        var slot = inventoryItems[slotIndex];
+
+        // 2) Slot leer → normalen Place
+        if (slot == null)
+        {
+            int toPlace = info.isStackable
+                ? Mathf.Min(amount, info.maxStack)
+                : 1;
+            inventoryItems[slotIndex] = new InventoryItem(info, toPlace);
+            return true;
+        }
+
+        // 3) Slot belegt, prüfen auf Stackbarkeit
+        if (info.isStackable && slot.itemInfo == info && slot.quantity < info.maxStack)
+        {
+            int space = info.maxStack - slot.quantity;
+            int toAdd = Mathf.Min(amount, space);
+            slot.quantity += toAdd;
+            return true;
+        }
+
+        // 4) Nichts ging → false
         return false;
-
-    var slot = inventoryItems[slotIndex];
-
-    // 2) Slot leer → normalen Place
-    if (slot == null)
-    {
-        int toPlace = info.isStackable
-            ? Mathf.Min(amount, info.maxStack)
-            : 1;
-        inventoryItems[slotIndex] = new InventoryItem(info, toPlace);
-        return true;
-    }
-
-    // 3) Slot belegt, prüfen auf Stackbarkeit
-    if (info.isStackable && slot.itemInfo == info && slot.quantity < info.maxStack)
-    {
-        int space = info.maxStack - slot.quantity;
-        int toAdd = Mathf.Min(amount, space);
-        slot.quantity += toAdd;
-        return true;
-    }
-
-    // 4) Nichts ging → false
-    return false;
-}
+    }   
     
 
 }
