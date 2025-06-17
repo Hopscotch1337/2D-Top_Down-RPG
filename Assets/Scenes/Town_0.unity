@@ -31527,6 +31527,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Manager
       objectReference: {fileID: 0}
+    - target: {fileID: 4346404765408846986, guid: a35b3915a8315fb47979815369126fd7, type: 3}
+      propertyPath: buffIndicatorContainer
+      value: 
+      objectReference: {fileID: 3702076524984964333}
     - target: {fileID: 4902009070377027505, guid: a35b3915a8315fb47979815369126fd7, type: 3}
       propertyPath: m_RootOrder
       value: 7
@@ -32581,6 +32585,11 @@ MonoBehaviour:
   m_YawDamping: 0
   m_RollDamping: 0
   m_AngularDamping: 0
+--- !u!224 &3702076524984964333 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 754971255244520695, guid: 337c2f91dd0a0a14789894fffff398ab, type: 3}
+  m_PrefabInstance: {fileID: 276531809}
+  m_PrefabAsset: {fileID: 0}
 --- !u!20 &4409995395466756468
 Camera:
   m_ObjectHideFlags: 0

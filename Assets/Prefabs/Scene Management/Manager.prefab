@@ -188,6 +188,7 @@ MonoBehaviour:
   sellArea: {fileID: 0}
   shopSlotPrefab: {fileID: 93935272974848198, guid: c61fcfddce3ac4748b4d2276c9d4cfa0, type: 3}
   statusText: {fileID: 0}
+  shopItemsHeader: {fileID: 0}
   sellMagnitude: 0.5
 --- !u!1 &7029558220437877737
 GameObject:
@@ -367,6 +368,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 371622b77e795914ba9564ec3d70a6cc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  buffIndicatorContainer: {fileID: 0}
+  buffIndicatorPrefab: {fileID: 696257032406705654, guid: 69fd147af4ea251449d6bb76b9a3b6d3, type: 3}
   staminaBuffIsActive: 0
 --- !u!1 &7840447206309692786
 GameObject:

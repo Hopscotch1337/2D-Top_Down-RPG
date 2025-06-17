@@ -118,11 +118,12 @@ public class PlayerController : Singelton<PlayerController>
 
     private IEnumerator DashRoutine()
     {
+        float speedBeforeDash = moveSpeed;
         playerTrailRenderer.emitting = true;
         isDashing = true;
         moveSpeed *= dashSpeed;
         yield return new WaitForSeconds(dashTime);
-        moveSpeed = startingMoveSpeed;
+        moveSpeed = speedBeforeDash;
         playerTrailRenderer.emitting = false;
         yield return new WaitForSeconds(dashCooldown);
         isDashing = false;
